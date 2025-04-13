@@ -27,7 +27,8 @@ const withPWA = createPWA({
 const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
-  }
+  },
+  poweredByHeader: false,
 };
 
 // @ts-ignore
