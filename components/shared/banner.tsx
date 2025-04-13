@@ -2,9 +2,9 @@
 
 import { X } from "lucide-react";
 import { useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 interface BannerProps {
     title: string;
@@ -21,7 +21,7 @@ const Banner = ({
     linkUrl = "#",
     defaultVisible = true,
 }: BannerProps) => {
-    const [isVisible, setIsVisible] = useState(defaultVisible);
+    const [isVisible, setIsVisible] = useLocalStorage("banner-visible", defaultVisible);
 
     const handleClose = () => {
         setIsVisible(false);
