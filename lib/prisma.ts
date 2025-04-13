@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/clinet'
+import { PrismaClient } from '@prisma/client'
 
 /**
  * The PrismaClient instance used to interact with the database.
