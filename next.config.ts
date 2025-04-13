@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   poweredByHeader: false,
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['https://thahrav.shop', "https://www.thahrav.shop"]
+    }
+  }
 };
 
 // @ts-ignore
