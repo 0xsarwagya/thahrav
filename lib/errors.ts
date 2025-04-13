@@ -1,4 +1,4 @@
-import { Prisma } from './database/client';
+import { Prisma } from '@prisma/clinet';
 import { ZodError } from 'zod';
 
 /**
