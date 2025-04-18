@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://thahrav.shop
+
+# Sitemaps
+Sitemap: https://thahrav.shop/sitemap.xml

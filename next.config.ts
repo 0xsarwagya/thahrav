@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
     serverActions: {
       allowedOrigins: ['https://thahrav.shop', "https://www.thahrav.shop"]
     }
-  }
+  },
 };
 
 // @ts-ignore

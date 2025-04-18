@@ -1,0 +1,2662 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Thahrav API",
+    "description": "API for Thahrav - Crafted from Culture, Styled for Spirit. A culture-rooted fashion brand that reimagines Indian heritage through a contemporary lens.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Thahrav API Support",
+      "email": "api@thahrav.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.thahrav.com/v1",
+      "description": "Production API"
+    },
+    {
+      "url": "https://staging-api.thahrav.com/v1",
+      "description": "Staging API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Authentication operations"
+    },
+    {
+      "name": "products",
+      "description": "Product operations"
+    },
+    {
+      "name": "cart",
+      "description": "Shopping cart operations"
+    },
+    {
+      "name": "orders",
+      "description": "Order operations"
+    },
+    {
+      "name": "profile",
+      "description": "User profile operations"
+    },
+    {
+      "name": "checkout",
+      "description": "Checkout operations"
+    },
+    {
+      "name": "journal",
+      "description": "Journal/blog operations"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Register a new user",
+        "description": "Creates a new user account with the provided information",
+        "operationId": "registerUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login a user",
+        "description": "Authenticates a user with email and password",
+        "operationId": "loginUser",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User logged in successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/forgot-password": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Request password reset",
+        "description": "Sends a password reset link to the user's email",
+        "operationId": "forgotPassword",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@example.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset email sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password reset email sent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Reset password",
+        "description": "Resets the user's password using a token",
+        "operationId": "resetPassword",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["token", "password", "confirmPassword"],
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "example": "reset-token-123"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "newPassword123"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "newPassword123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password reset successful"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or passwords don't match",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid or expired token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "tags": ["auth"],
+        "summary": "Get current user",
+        "description": "Returns the currently authenticated user's information",
+        "operationId": "getCurrentUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Logout user",
+        "description": "Logs out the currently authenticated user",
+        "operationId": "logoutUser",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged out successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Logged out successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Get all products",
+        "description": "Returns a list of products with optional filtering and pagination",
+        "operationId": "getProducts",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter by category",
+            "schema": {
+              "type": "string",
+              "example": "kurta"
+            }
+          },
+          {
+            "name": "fabric",
+            "in": "query",
+            "description": "Filter by fabric type",
+            "schema": {
+              "type": "string",
+              "example": "silk"
+            }
+          },
+          {
+            "name": "craftType",
+            "in": "query",
+            "description": "Filter by craft type",
+            "schema": {
+              "type": "string",
+              "example": "madhubani"
+            }
+          },
+          {
+            "name": "priceMin",
+            "in": "query",
+            "description": "Minimum price",
+            "schema": {
+              "type": "number",
+              "example": 1000
+            }
+          },
+          {
+            "name": "priceMax",
+            "in": "query",
+            "description": "Maximum price",
+            "schema": {
+              "type": "number",
+              "example": 5000
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "type": "string",
+              "enum": ["newest", "price-asc", "price-desc"],
+              "example": "newest"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 12,
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Product"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 100
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 12
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 9
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Get product by ID",
+        "description": "Returns a single product by its ID",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Product ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "prod_123456"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/categories": {
+      "get": {
+        "tags": ["products"],
+        "summary": "Get product categories",
+        "description": "Returns a list of all product categories",
+        "operationId": "getProductCategories",
+        "responses": {
+          "200": {
+            "description": "List of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Category"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart": {
+      "get": {
+        "tags": ["cart"],
+        "summary": "Get user's cart",
+        "description": "Returns the current user's shopping cart",
+        "operationId": "getCart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["cart"],
+        "summary": "Clear cart",
+        "description": "Removes all items from the user's cart",
+        "operationId": "clearCart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart cleared",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Cart cleared successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/items": {
+      "post": {
+        "tags": ["cart"],
+        "summary": "Add item to cart",
+        "description": "Adds a product to the user's cart",
+        "operationId": "addCartItem",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["productId", "quantity"],
+                "properties": {
+                  "productId": {
+                    "type": "string",
+                    "example": "prod_123456"
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 1
+                  },
+                  "size": {
+                    "type": "string",
+                    "example": "M"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item added to cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cart/items/{itemId}": {
+      "put": {
+        "tags": ["cart"],
+        "summary": "Update cart item",
+        "description": "Updates the quantity of an item in the cart",
+        "operationId": "updateCartItem",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "Cart item ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "cart_item_123"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["quantity"],
+                "properties": {
+                  "quantity": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "example": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cart item updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["cart"],
+        "summary": "Remove cart item",
+        "description": "Removes an item from the cart",
+        "operationId": "removeCartItem",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "Cart item ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "cart_item_123"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cart item removed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cart"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cart item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": ["orders"],
+        "summary": "Get user's orders",
+        "description": "Returns a list of the user's orders with optional filtering and pagination",
+        "operationId": "getOrders",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by order status",
+            "schema": {
+              "type": "string",
+              "enum": ["processing", "shipped", "delivered", "cancelled"],
+              "example": "processing"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "orders": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Order"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 25
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["orders"],
+        "summary": "Create order",
+        "description": "Creates a new order from the user's cart",
+        "operationId": "createOrder",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["shippingAddressId", "paymentMethod"],
+                "properties": {
+                  "shippingAddressId": {
+                    "type": "string",
+                    "example": "addr_123456"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "enum": ["cod", "card", "upi"],
+                    "example": "cod"
+                  },
+                  "paymentDetails": {
+                    "type": "object",
+                    "description": "Required for card and UPI payments",
+                    "properties": {
+                      "cardNumber": {
+                        "type": "string",
+                        "example": "4111111111111111"
+                      },
+                      "expiryDate": {
+                        "type": "string",
+                        "example": "12/25"
+                      },
+                      "cvv": {
+                        "type": "string",
+                        "example": "123"
+                      },
+                      "upiId": {
+                        "type": "string",
+                        "example": "user@upi"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetail"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or empty cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "tags": ["orders"],
+        "summary": "Get order by ID",
+        "description": "Returns a single order by its ID",
+        "operationId": "getOrderById",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "order_123456"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDetail"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - not user's order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/{id}/track": {
+      "get": {
+        "tags": ["orders"],
+        "summary": "Track order",
+        "description": "Returns tracking information for an order",
+        "operationId": "trackOrder",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "order_123456"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order tracking information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderTracking"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - not user's order",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": ["profile"],
+        "summary": "Get user profile",
+        "description": "Returns the user's profile information",
+        "operationId": "getUserProfile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["profile"],
+        "summary": "Update user profile",
+        "description": "Updates the user's profile information",
+        "operationId": "updateUserProfile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fullName": {
+                    "type": "string",
+                    "example": "Arjun Sharma"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "example": "+91 98765 43210"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated",  "+91 98765 43210"\
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfile"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/password": {
+      "put": {
+        "tags": ["profile"],
+        "summary": "Update password",
+        "description": "Updates the user's password",
+        "operationId": "updatePassword",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["currentPassword", "newPassword", "confirmPassword"],
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "currentPassword123"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "newPassword123"
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "newPassword123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Password updated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or passwords don't match",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or incorrect current password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/addresses": {
+      "get": {
+        "tags": ["profile"],
+        "summary": "Get user addresses",
+        "description": "Returns the user's saved addresses",
+        "operationId": "getUserAddresses",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User addresses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "addresses": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Address"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["profile"],
+        "summary": "Add address",
+        "description": "Adds a new address to the user's profile",
+        "operationId": "addUserAddress",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Address added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Address"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/profile/addresses/{id}": {
+      "put": {
+        "tags": ["profile"],
+        "summary": "Update address",
+        "description": "Updates an existing address",
+        "operationId": "updateUserAddress",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Address ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "addr_123456"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Address updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Address"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["profile"],
+        "summary": "Delete address",
+        "description": "Deletes an address from the user's profile",
+        "operationId": "deleteUserAddress",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Address ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "addr_123456"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Address deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Address deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/checkout/validate": {
+      "post": {
+        "tags": ["checkout"],
+        "summary": "Validate checkout",
+        "description": "Validates the cart items and shipping address before checkout",
+        "operationId": "validateCheckout",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["addressId"],
+                "properties": {
+                  "addressId": {
+                    "type": "string",
+                    "example": "addr_123456"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Checkout validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": []
+                    },
+                    "cart": {
+                      "$ref": "#/components/schemas/Cart"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or empty cart",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/checkout/shipping-methods": {
+      "get": {
+        "tags": ["checkout"],
+        "summary": "Get shipping methods",
+        "description": "Returns available shipping methods based on the shipping address",
+        "operationId": "getShippingMethods",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "addressId",
+            "in": "query",
+            "description": "Address ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "addr_123456"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Available shipping methods",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "methods": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ShippingMethod"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Address not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/journal": {
+      "get": {
+        "tags": ["journal"],
+        "summary": "Get journal articles",
+        "description": "Returns a list of journal articles with optional filtering and pagination",
+        "operationId": "getJournalArticles",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter by category",
+            "schema": {
+              "type": "string",
+              "example": "craftsmanship"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Search term",
+            "schema": {
+              "type": "string",
+              "example": "madhubani"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "type": "string",
+              "enum": ["newest", "oldest", "popular"],
+              "example": "newest"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 12,
+              "example": 12
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of journal articles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "articles": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JournalArticle"
+                      }
+                    },
+                    "total": {
+                      "type": "integer",
+                      "example": 50
+                    },
+                    "page": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "limit": {
+                      "type": "integer",
+                      "example": 12
+                    },
+                    "totalPages": {
+                      "type": "integer",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/journal/{id}": {
+      "get": {
+        "tags": ["journal"],
+        "summary": "Get journal article by ID",
+        "description": "Returns a single journal article by its ID",
+        "operationId": "getJournalArticleById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Article ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "article_123456"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Journal article details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JournalArticleDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Article not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/journal/categories": {
+      "get": {
+        "tags": ["journal"],
+        "summary": "Get journal categories",
+        "description": "Returns a list of all journal article categories",
+        "operationId": "getJournalCategories",
+        "responses": {
+          "200": {
+            "description": "List of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "categories": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "example": "cat_craftsmanship"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Craftsmanship"
+                          },
+                          "slug": {
+                            "type": "string",
+                            "example": "craftsmanship"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegisterRequest": {
+        "type": "object",
+        "required": ["fullName", "email", "password", "confirmPassword"],
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Arjun Sharma"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "arjun.sharma@example.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "Password123"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "format": "password",
+            "example": "Password123"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "arjun.sharma@example.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "Password123"
+          }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "user_123456"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "Arjun Sharma"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "arjun.sharma@example.com"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-15T12:00:00Z"
+          }
+        }
+      },
+      "UserProfile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "user_123456"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "Arjun Sharma"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "arjun.sharma@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+91 98765 43210"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-15T12:00:00Z"
+          }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "addr_123456"
+          },
+          "fullName": {
+            "type": "string",
+            "example": "Arjun Sharma"
+          },
+          "addressLine1": {
+            "type": "string",
+            "example": "123 Cultural Lane"
+          },
+          "addressLine2": {
+            "type": "string",
+            "example": "Apartment 4B"
+          },
+          "city": {
+            "type": "string",
+            "example": "New Delhi"
+          },
+          "state": {
+            "type": "string",
+            "example": "Delhi"
+          },
+          "postalCode": {
+            "type": "string",
+            "example": "110001"
+          },
+          "country": {
+            "type": "string",
+            "example": "India"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+91 98765 43210"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "AddressInput": {
+        "type": "object",
+        "required": ["fullName", "addressLine1", "city", "state", "postalCode", "country", "phone"],
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "example": "Arjun Sharma"
+          },
+          "addressLine1": {
+            "type": "string",
+            "example": "123 Cultural Lane"
+          },
+          "addressLine2": {
+            "type": "string",
+            "example": "Apartment 4B"
+          },
+          "city": {
+            "type": "string",
+            "example": "New Delhi"
+          },
+          "state": {
+            "type": "string",
+            "example": "Delhi"
+          },
+          "postalCode": {
+            "type": "string",
+            "example": "110001"
+          },
+          "country": {
+            "type": "string",
+            "example": "India"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+91 98765 43210"
+          },
+          "isDefault": {
+            "type": "boolean",
+            "example": false
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "prod_123456"
+          },
+          "name": {
+            "type": "string",
+            "example": "Handwoven Silk Kurta"
+          },
+          "slug": {
+            "type": "string",
+            "example": "handwoven-silk-kurta"
+          },
+          "description": {
+            "type": "string",
+            "example": "Inspired by Varanasi's rich textile heritage"
+          },
+          "price": {
+            "type": "number",
+            "example": 4999
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "https://api.thahrav.com/images/products/kurta-1.jpg"
+            }
+          },
+          "category": {
+            "type": "string",
+            "example": "kurta"
+          },
+          "fabric": {
+            "type": "string",
+            "example": "silk"
+          },
+          "craftType": {
+            "type": "string",
+            "example": "handwoven"
+          },
+          "inStock": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "ProductDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "prod_123456"
+          },
+          "name": {
+            "type": "string",
+            "example": "Handwoven Silk Kurta"
+          },
+          "slug": {
+            "type": "string",
+            "example": "handwoven-silk-kurta"
+          },
+          "description": {
+            "type": "string",
+            "example": "Inspired by Varanasi's rich textile heritage, this handwoven silk kurta embodies the essence of traditional craftsmanship with a contemporary twist."
+          },
+          "price": {
+            "type": "number",
+            "example": 4999
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "https://api.thahrav.com/images/products/kurta-1.jpg"
+            }
+          },
+          "category": {
+            "type": "string",
+            "example": "kurta"
+          },
+          "fabric": {
+            "type": "string",
+            "example": "silk"
+          },
+          "craftType": {
+            "type": "string",
+            "example": "handwoven"
+          },
+          "sizes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "M"
+            }
+          },
+          "details": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "100% handwoven Banarasi silk"
+            }
+          },
+          "care": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "Dry clean only"
+            }
+          },
+          "divineInspiration": {
+            "type": "string",
+            "example": "This kurta draws inspiration from the sacred Ganges river and the ancient temples of Varanasi."
+          },
+          "ritualUsage": {
+            "type": "string",
+            "example": "Perfect for auspicious occasions, temple visits, and spiritual gatherings."
+          },
+          "fabricOrigin": {
+            "type": "string",
+            "example": "Handwoven by master weavers in Varanasi using techniques passed down through generations."
+          },
+          "mantra": {
+            "type": "string",
+            "example": "वाराणसी काशी विश्वनाथ (Varanasi Kashi Vishwanath) - Honoring the eternal city of light"
+          },
+          "inStock": {
+            "type": "boolean",
+            "example": true
+          },
+          "relatedProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cat_kurta"
+          },
+          "name": {
+            "type": "string",
+            "example": "Kurta"
+          },
+          "slug": {
+            "type": "string",
+            "example": "kurta"
+          },
+          "description": {
+            "type": "string",
+            "example": "Traditional Indian upper garment"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://api.thahrav.com/images/categories/kurta.jpg"
+          }
+        }
+      },
+      "CartItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cart_item_123"
+          },
+          "productId": {
+            "type": "string",
+            "example": "prod_123456"
+          },
+          "name": {
+            "type": "string",
+            "example": "Handwoven Silk Kurta"
+          },
+          "price": {
+            "type": "number",
+            "example": 4999
+          },
+          "quantity": {
+            "type": "integer",
+            "example": 1
+          },
+          "size": {
+            "type": "string",
+            "example": "M"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://api.thahrav.com/images/products/kurta-1.jpg"
+          },
+          "subtotal": {
+            "type": "number",
+            "example": 4999
+          }
+        }
+      },
+      "Cart": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CartItem"
+            }
+          },
+          "subtotal": {
+            "type": "number",
+            "example": 6498
+          },
+          "shipping": {
+            "type": "number",
+            "example": 150
+          },
+          "total": {
+            "type": "number",
+            "example": 6648
+          },
+          "itemCount": {
+            "type": "integer",
+            "example": 2
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "order_123456"
+          },
+          "orderNumber": {
+            "type": "string",
+            "example": "TH-12345"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["processing", "shipped", "delivered", "cancelled"],
+            "example": "processing"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-04-15T10:30:00Z"
+          },
+          "total": {
+            "type": "number",
+            "example": 6648
+          },
+          "itemCount": {
+            "type": "integer",
+            "example": 2
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": ["cod", "card", "upi"],
+            "example": "cod"
+          },
+          "estimatedDelivery": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-04-20"
+          }
+        }
+      },
+      "OrderDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "order_123456"
+          },
+          "orderNumber": {
+            "type": "string",
+            "example": "TH-12345"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["processing", "shipped", "delivered", "cancelled"],
+            "example": "processing"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-04-15T10:30:00Z"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "productId": {
+                  "type": "string",
+                  "example": "prod_123456"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Handwoven Silk Kurta"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 4999
+                },
+                "quantity": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "size": {
+                  "type": "string",
+                  "example": "M"
+                },
+                "image": {
+                  "type": "string",
+                  "example": "https://api.thahrav.com/images/products/kurta-1.jpg"
+                },
+                "subtotal": {
+                  "type": "number",
+                  "example": 4999
+                }
+              }
+            }
+          },
+          "subtotal": {
+            "type": "number",
+            "example": 6498
+          },
+          "shipping": {
+            "type": "number",
+            "example": 150
+          },
+          "total": {
+            "type": "number",
+            "example": 6648
+          },
+          "shippingAddress": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "enum": ["cod", "card", "upi"],
+            "example": "cod"
+          },
+          "estimatedDelivery": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-04-20"
+          },
+          "trackingNumber": {
+            "type": "string",
+            "example": "TRK123456789"
+          }
+        }
+      },
+      "OrderTracking": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "example": "order_123456"
+          },
+          "orderNumber": {
+            "type": "string",
+            "example": "TH-12345"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["processing", "shipped", "delivered", "cancelled"],
+            "example": "shipped"
+          },
+          "trackingNumber": {
+            "type": "string",
+            "example": "TRK123456789"
+          },
+          "carrier": {
+            "type": "string",
+            "example": "BlueDart"
+          },
+          "estimatedDelivery": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-04-20"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2023-04-16T14:30:00Z"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "Shipped"
+                },
+                "location": {
+                  "type": "string",
+                  "example": "Delhi Sorting Facility"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Package has left the facility"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ShippingMethod": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "ship_standard"
+          },
+          "name": {
+            "type": "string",
+            "example": "Standard Shipping"
+          },
+          "price": {
+            "type": "number",
+            "example": 150
+          },
+          "estimatedDeliveryDays": {
+            "type": "integer",
+            "example": 5
+          },
+          "description": {
+            "type": "string",
+            "example": "Delivery within 4-6 business days"
+          }
+        }
+      },
+      "JournalArticle": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "article_123456"
+          },
+          "title": {
+            "type": "string",
+            "example": "The Art of Block Printing: A Timeless Craft"
+          },
+          "slug": {
+            "type": "string",
+            "example": "art-of-block-printing"
+          },
+          "excerpt": {
+            "type": "string",
+            "example": "Exploring the ancient technique of hand block printing from Rajasthan and how it continues to influence modern textile design."
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-04-12"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://api.thahrav.com/images/journal/block-printing.jpg"
+          },
+          "category": {
+            "type": "string",
+            "example": "Craftsmanship"
+          },
+          "author": {
+            "type": "string",
+            "example": "Priya Sharma"
+          },
+          "readTime": {
+            "type": "string",
+            "example": "5 min read"
+          }
+        }
+      },
+      "JournalArticleDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "article_123456"
+          },
+          "title": {
+            "type": "string",
+            "example": "The Art of Block Printing: A Timeless Craft"
+          },
+          "slug": {
+            "type": "string",
+            "example": "art-of-block-printing"
+          },
+          "content": {
+            "type": "string",
+            "example": "<p>Block printing is believed to have originated in China around 4,000 years ago. From there, it spread to other parts of Asia, including India, where it found a particularly receptive home in Rajasthan.</p><p>The craft has been passed down through generations, with each region developing its own distinctive patterns and techniques.</p>"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "example": "2023-04-12"
+          },
+          "image": {
+            "type": "string",
+            "example": "https://api.thahrav.com/images/journal/block-printing.jpg"
+          },
+          "category": {
+            "type": "string",
+            "example": "Craftsmanship"
+          },
+          "author": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "Priya Sharma"
+              },
+              "bio": {
+                "type": "string",
+                "example": "Priya is a textile historian and designer with a passion for traditional Indian crafts."
+              },
+              "image": {
+                "type": "string",
+                "example": "https://api.thahrav.com/images/authors/priya-sharma.jpg"
+              }
+            }
+          },
+          "readTime": {
+            "type": "string",
+            "example": "5 min read"
+          },
+          "relatedArticles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JournalArticle"
+            }
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "An error occurred"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string",
+                  "example": "email"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Email is required"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

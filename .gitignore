@@ -43,3 +43,4 @@ next-env.d.ts
 lib/database/
 public/workbox-*.js
 public/service-worker.js
+.env*.local
