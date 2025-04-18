@@ -2,7 +2,6 @@ import { betterAuth } from "better-auth";
 import { prisma } from "../prisma";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { openAPI } from "better-auth/plugins";
-import { waitlistPlugin } from "./plugins/waitlist";
 
 export const auth = betterAuth({
     appName: "Mantrika",
@@ -18,6 +17,5 @@ export const auth = betterAuth({
     basePath: "/api",
     plugins: [
         openAPI(),
-        waitlistPlugin(),
     ]
 })

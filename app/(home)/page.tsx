@@ -10,24 +10,23 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[60vh] w-full overflow-hidden sm:h-[70vh] md:h-[80vh] rounded-b-3xl">
+      <section className="relative h-[60vh] w-full overflow-hidden sm:h-[70vh] md:h-[80vh]">
         <div className="absolute inset-0 bg-primary">
           <Image
-            src="/images/hero.jpg"
-            alt="A vibrant, circular mandala design featuring layered petals in soft hues of pink, blue, and orange, set against a warm background."
+            src="/placeholder.svg?height=1080&width=1920"
+            alt="Indian textile craftsmanship"
             fill
-            className="object-cover opacity-30 grayscale-100"
+            className="object-cover opacity-30"
             priority
-            loading="eager"
           />
         </div>
         <div className="container relative z-10 flex h-full flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4 md:space-y-6">
             <h1 className="font-serif text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-              Crafted from Culture, Styled for Spirit
+              From Kailash to Kashi, dipped in style
             </h1>
             <p className="text-base font-medium text-primary-foreground sm:text-lg md:text-xl">
-              Designs rooted in culture, made for the modern wanderer — bold, meaningful, timeless.
+              Timeless Indian cultural depth meets modern-day wearables
             </p>
             <div className="pt-4">
               <Button asChild size="lg" className="bg-background text-foreground hover:bg-background/90">
@@ -88,21 +87,19 @@ export default function Home() {
       </section>
 
       {/* Cultural Story Block */}
-      <section className="bg-muted py-12 md:py-16 lg:py-24 rounded-3xl">
+      <section className="bg-muted py-12 md:py-16 lg:py-24">
         <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:grid-cols-2 md:items-center md:gap-12">
             <div className="order-2 md:order-1">
               <h2 className="font-serif text-2xl font-bold sm:text-3xl md:text-4xl">Our Cultural Roots</h2>
               <div className="mt-4 space-y-4 text-muted-foreground font-medium md:mt-6">
                 <p>
-                  Thahrav is a fashion brand born from India’s spiritual and cultural heritage. It weaves timeless stories
-                  into modern silhouettes—transforming sacred symbols, art forms, and traditions into wearable expressions
-                  of stillness, strength, and soul.
+                  Thahrav draws inspiration from the rich tapestry of Indian culture, craftsmanship, and heritage. Each
+                  piece tells a story of artisanal excellence passed down through generations.
                 </p>
                 <p>
-                  The name "Thahrav" comes from the Hindi word for “pause” or “stillness”—a reminder to slow down, to feel,
-                  and to honor what’s timeless. In a world that moves fast, we create space to reflect, express, and root
-                  ourselves in something deeper.
+                  We collaborate with skilled craftspeople across India to create contemporary designs that honor
+                  traditional techniques while embracing modern aesthetics.
                 </p>
               </div>
               <div className="mt-6 md:mt-8">
@@ -119,8 +116,8 @@ export default function Home() {
               <Card className="overflow-hidden">
                 <AspectRatio ratio={1 / 1}>
                   <Image
-                    src="/images/culture.jpg"
-                    alt="Intricate swirling floral patterns in vibrant orange, teal, and gold on a textured deep blue background, showcasing elegant design."
+                    src="/placeholder.svg?height=800&width=800&text=Cultural+Craftsmanship"
+                    alt="Indian artisan at work"
                     fill
                     className="object-cover"
                   />
@@ -157,7 +154,7 @@ export default function Home() {
                 image: "/placeholder.svg?height=400&width=600&text=Natural+Dyes",
               },
             ].map((post, index) => (
-              <Card key={index.toString()} className="overflow-hidden">
+              <Card key={index} className="overflow-hidden">
                 <div className="relative">
                   <AspectRatio ratio={16 / 9}>
                     <Image
@@ -212,7 +209,7 @@ export default function Home() {
                 image: "/placeholder.svg?height=400&width=400&text=Natural+Colors",
               },
             ].map((item, index) => (
-              <Card key={index.toString()} className="overflow-hidden flex flex-col">
+              <Card key={index} className="overflow-hidden flex flex-col">
                 <AspectRatio ratio={1 / 1}>
                   <Image src={item.image || "/placeholder.svg"} alt={item.source} fill className="object-cover" />
                 </AspectRatio>
@@ -227,13 +224,14 @@ export default function Home() {
       </section>
 
       {/* Newsletter */}
-      <section className="bg-primary py-12 text-primary-foreground md:py-16 lg:py-24 rounded-t-3xl">
+      <section className="bg-primary py-12 text-primary-foreground md:py-16 lg:py-24">
         <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="font-serif text-2xl font-bold sm:text-3xl md:text-4xl">Join Our Community</h2>
             <p className="mt-3 font-medium md:mt-4">
               Subscribe to receive updates on new collections, cultural stories, and exclusive offers.
             </p>
+
             <form className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
               <Input
                 type="email"

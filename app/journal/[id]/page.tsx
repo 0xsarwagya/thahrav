@@ -102,9 +102,15 @@ const getBlogPost = (id: string) => {
   }
 }
 
-export default function BlogPostPage({ params }: { params: { id: string } }) {
+type PageProps = {
+  params: Promise<{ id: string }>
+}
+
+
+export default async function BlogPostPage({ params }: PageProps) {
+  const { id } = await params;
   // @TODO: Replace with actual data fetching
-  const post = getBlogPost(params.id)
+  const post = getBlogPost(id)
 
   return (
     <div className="container px-4 py-8 sm:px-6 sm:py-10 md:py-12 lg:px-8">

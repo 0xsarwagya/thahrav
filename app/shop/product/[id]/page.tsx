@@ -14,11 +14,27 @@ import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
 import { CartDrawer } from "@/components/cart-drawer"
 
+type Product = {
+  id: string
+  name: string
+  slug: string
+  description: string
+  price: string
+  images: string[]
+  sizes: string[]
+  details: string[]
+  care: string[]
+  divineInspiration: string
+  ritualUsage: string
+  fabricOrigin: string
+  mantra: string;
+}
+
 // @TODO: Replace with actual product data fetching from e-commerce backend
 // This would typically be a server component with data fetching
 const getProduct = (id: string) => {
   // Mock product data - in a real app, this would come from a database or API
-  const products = {
+  const products: Record<string, Product> = {
     "1": {
       id: "1",
       name: "Handwoven Silk Kurta",
@@ -96,39 +112,44 @@ const getProduct = (id: string) => {
 
 // Note: Since we're using 'use client', we can't use async generateMetadata
 // In a real app, you would handle metadata differently with a hybrid approach
-export const generateMetadata = ({ params }: { params: { id: string } }): Metadata => {
-  const product = getProduct(params.id)
+// export const generateMetadata = ({ params }: { params: { id: string } }): Metadata => {
+//   const product = getProduct(params.id)
 
-  if (!product) {
-    return {
-      title: "Product Not Found | Thahrav",
-      description: "The requested product could not be found.",
-    }
-  }
+//   if (!product) {
+//     return {
+//       title: "Product Not Found | Thahrav",
+//       description: "The requested product could not be found.",
+//     }
+//   }
 
-  return {
-    title: `${product.name} | Thahrav`,
-    description: product.divineInspiration.substring(0, 160),
-    openGraph: {
-      title: `${product.name} | Thahrav`,
-      description: product.divineInspiration.substring(0, 160),
-      type: "product",
-      url: `https://thahrav.com/shop/product/${product.id}`,
-      images: [
-        {
-          url: product.images[0],
-          width: 800,
-          height: 600,
-          alt: product.name,
-        },
-      ],
-    },
-    canonical: `https://thahrav.com/shop/product/${product.id}`,
-  }
+//   return {
+//     title: `${product.name} | Thahrav`,
+//     description: product.divineInspiration.substring(0, 160),
+//     openGraph: {
+//       title: `${product.name} | Thahrav`,
+//       description: product.divineInspiration.substring(0, 160),
+//       type: "product",
+//       url: `https://thahrav.com/shop/product/${product.id}`,
+//       images: [
+//         {
+//           url: product.images[0],
+//           width: 800,
+//           height: 600,
+//           alt: product.name,
+//         },
+//       ],
+//     },
+//     canonical: `https://thahrav.com/shop/product/${product.id}`,
+//   }
+// }
+
+type PageProps = {
+  params: Promise<{ id: string }>
 }
 
-export default function ProductPage({ params }: { params: { id: string } }) {
-  const product = getProduct(params.id)
+export default async function ProductPage({ params }: PageProps) {
+  const { id } = await params;
+  const product = getProduct(id)
   const [quantity, setQuantity] = useState(1)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
@@ -243,9 +264,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                     <Button
                       key={size}
                       variant="outline"
-                      className={`rounded-md border px-3 py-2 text-center text-sm font-medium hover:border-foreground sm:px-4 ${
-                        selectedSize === size ? "border-primary bg-primary/10" : "border-border bg-background/80"
-                      }`}
+                      className={`rounded-md border px-3 py-2 text-center text-sm font-medium hover:border-foreground sm:px-4 ${selectedSize === size ? "border-primary bg-primary/10" : "border-border bg-background/80"
+                        }`}
                       onClick={() => setSelectedSize(size)}
                     >
                       {size}
