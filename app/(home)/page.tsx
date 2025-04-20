@@ -13,23 +13,23 @@ export default function Home() {
       <section className="relative h-[60vh] w-full overflow-hidden sm:h-[70vh] md:h-[80vh]">
         <div className="absolute inset-0 bg-primary">
           <Image
-            src="/placeholder.svg?height=1080&width=1920"
+            src="/images/hero.jpg?height=1080&width=1920"
             alt="Indian textile craftsmanship"
             fill
-            className="object-cover opacity-30"
+            className="object-cover opacity-30 grayscale-100"
             priority
           />
         </div>
         <div className="container relative z-10 flex h-full flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-4 md:space-y-6">
             <h1 className="font-serif text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-              From Kailash to Kashi, dipped in style
+              Crafted from Culture, Styled for Spirit
             </h1>
             <p className="text-base font-medium text-primary-foreground sm:text-lg md:text-xl">
-              Timeless Indian cultural depth meets modern-day wearables
+              Designs rooted in culture, made for the modern wanderer — bold, meaningful, timeless.
             </p>
             <div className="pt-4">
-              <Button asChild size="lg" className="bg-background text-foreground hover:bg-background/90">
+              <Button asChild size="lg">
                 <Link href="/shop">Explore Collection</Link>
               </Button>
             </div>
@@ -94,12 +94,13 @@ export default function Home() {
               <h2 className="font-serif text-2xl font-bold sm:text-3xl md:text-4xl">Our Cultural Roots</h2>
               <div className="mt-4 space-y-4 text-muted-foreground font-medium md:mt-6">
                 <p>
-                  Thahrav draws inspiration from the rich tapestry of Indian culture, craftsmanship, and heritage. Each
-                  piece tells a story of artisanal excellence passed down through generations.
+                  Thahrav is a culture-rooted fashion brand born from a deep reverence for India's spiritual and artistic legacy.
+                  Our name — meaning “pause” or “stillness” — reflects our belief that fashion can be a sacred act of slowing down,
+                  reconnecting with our roots, and expressing who we truly are.
                 </p>
                 <p>
-                  We collaborate with skilled craftspeople across India to create contemporary designs that honor
-                  traditional techniques while embracing modern aesthetics.
+                  We blend timeless symbolism from sacred geography, like Kailash and Kashi, with modern silhouettes and wearable art.
+                  Our collections feature motifs inspired by Indian mythology, temple architecture, and ancient storytelling forms.
                 </p>
               </div>
               <div className="mt-6 md:mt-8">
@@ -116,7 +117,7 @@ export default function Home() {
               <Card className="overflow-hidden">
                 <AspectRatio ratio={1 / 1}>
                   <Image
-                    src="/placeholder.svg?height=800&width=800&text=Cultural+Craftsmanship"
+                    src="/images/culture.jpg?height=800&width=800&text=Cultural+Craftsmanship"
                     alt="Indian artisan at work"
                     fill
                     className="object-cover"
@@ -154,7 +155,7 @@ export default function Home() {
                 image: "/placeholder.svg?height=400&width=600&text=Natural+Dyes",
               },
             ].map((post, index) => (
-              <Card key={index} className="overflow-hidden">
+              <Card key={index.toString()} className="overflow-hidden">
                 <div className="relative">
                   <AspectRatio ratio={16 / 9}>
                     <Image
@@ -209,7 +210,7 @@ export default function Home() {
                 image: "/placeholder.svg?height=400&width=400&text=Natural+Colors",
               },
             ].map((item, index) => (
-              <Card key={index} className="overflow-hidden flex flex-col">
+              <Card key={index.toString()} className="overflow-hidden flex flex-col">
                 <AspectRatio ratio={1 / 1}>
                   <Image src={item.image || "/placeholder.svg"} alt={item.source} fill className="object-cover" />
                 </AspectRatio>

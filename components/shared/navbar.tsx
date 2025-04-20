@@ -2,11 +2,12 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Menu, X, ShoppingBag } from "lucide-react"
+import { Menu, X, ShoppingBag, User, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "@/components/shared/theme-toggle"
 import { CartDrawer } from "@/components/shared/cart-drawer"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -21,7 +22,7 @@ export default function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background flex flex-col items-center">
+    <header className="sticky top-0 z-50 w-full border-b bg-background items-center justify-center align-center flex flex-col">
       {/* Skip to content link for accessibility */}
       <a
         href="#main-content"
@@ -70,7 +71,43 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center space-x-2">
+          {/* Track Order Button */}
+          <Button variant="ghost" size="icon" aria-label="Track your order" asChild className="hidden sm:flex">
+            <Link href="/track-order">
+              <Package className="h-5 w-5" />
+              <span className="sr-only">Track Order</span>
+            </Link>
+          </Button>
+
+          {/* Profile Management Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="User profile">
+                <User className="h-5 w-5" />
+                <span className="sr-only">Profile</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href="/auth/login">Sign In</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/auth/register">Register</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/profile">My Account</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/profile/orders">My Orders</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="sm:hidden">
+                <Link href="/track-order">Track Order</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <ThemeToggle />
+
           <Button
             variant="ghost"
             size="icon"
@@ -83,6 +120,7 @@ export default function Navbar() {
           </Button>
         </div>
       </div>
+
       <CartDrawer open={isCartOpen} onOpenChangeAction={setIsCartOpen} />
     </header>
   )

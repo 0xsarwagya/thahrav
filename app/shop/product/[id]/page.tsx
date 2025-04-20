@@ -12,7 +12,7 @@ import { Card } from "@/components/ui/card"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
-import { CartDrawer } from "@/components/cart-drawer"
+import { CartDrawer } from "@/components/shared/cart-drawer"
 
 type Product = {
   id: string
@@ -187,6 +187,7 @@ export default async function ProductPage({ params }: PageProps) {
 
       {/* Subtle background pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.02]" aria-hidden="true">
+        {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
         <div className="absolute inset-0 bg-[url('/placeholder.svg?height=200&width=200&text=Pattern')] bg-repeat"></div>
       </div>
 
@@ -218,7 +219,7 @@ export default async function ProductPage({ params }: PageProps) {
             </Card>
             <div className="grid grid-cols-3 gap-2 sm:gap-4">
               {product.images.slice(1).map((image, index) => (
-                <Card key={index} className="overflow-hidden p-0 border">
+                <Card key={index.toString()} className="overflow-hidden p-0 border">
                   <AspectRatio ratio={1 / 1}>
                     <Image
                       src={image || "/placeholder.svg"}
@@ -238,11 +239,11 @@ export default async function ProductPage({ params }: PageProps) {
             <div
               className="absolute top-0 left-0 w-16 h-16 border-t border-l border-primary/30"
               aria-hidden="true"
-            ></div>
+            />
             <div
               className="absolute bottom-0 right-0 w-16 h-16 border-b border-r border-primary/30"
               aria-hidden="true"
-            ></div>
+            />
 
             <div className="px-4 py-6 md:p-6">
               <h1 className="font-serif text-2xl font-medium sm:text-3xl md:text-4xl">{product.name}</h1>
@@ -358,14 +359,14 @@ export default async function ProductPage({ params }: PageProps) {
                   <TabsContent value="details" className="mt-4">
                     <ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground font-medium">
                       {product.details.map((detail, index) => (
-                        <li key={index}>{detail}</li>
+                        <li key={index.toString()}>{detail}</li>
                       ))}
                     </ul>
                   </TabsContent>
                   <TabsContent value="care" className="mt-4">
                     <ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground font-medium">
                       {product.care.map((item, index) => (
-                        <li key={index}>{item}</li>
+                        <li key={index.toString()}>{item}</li>
                       ))}
                     </ul>
                   </TabsContent>
@@ -380,7 +381,7 @@ export default async function ProductPage({ params }: PageProps) {
       </div>
 
       {/* Cart Drawer */}
-      <CartDrawer open={isCartOpen} onOpenChange={setIsCartOpen} />
+      <CartDrawer open={isCartOpen} onOpenChangeAction={setIsCartOpen} />
     </main>
   )
 }

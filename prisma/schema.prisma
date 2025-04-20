@@ -1,6 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  output        = "./"
 }
 
 datasource db {
@@ -82,4 +83,23 @@ model Waitlist {
   updatedAt Int?
 
   @@map("waitlist")
+}
+
+model Products {
+  id            String   @id
+  name          String
+  slug          String
+  description   String
+  originalPrice Int
+  price         Int?
+  sizes         String[]
+  images        String[]
+  details       String[]
+  care          String[]
+  story         String
+
+  @@unique([id])
+  @@unique([name])
+  @@unique([slug])
+  @@map("products")
 }

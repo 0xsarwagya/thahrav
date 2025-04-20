@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Trash2, Plus, Minus } from "lucide-react"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet"
+import { X, Trash2, Plus, Minus } from "lucide-react"
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { useMobile } from "@/hooks/use-mobile"
 
@@ -79,6 +79,10 @@ export function CartDrawer({ open, onOpenChangeAction }: CartDrawerProps) {
           <SheetHeader className="px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
               <SheetTitle>Your Cart</SheetTitle>
+              <SheetClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </SheetClose>
             </div>
             <SheetDescription>
               {cartItems.length === 0
