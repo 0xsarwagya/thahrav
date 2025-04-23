@@ -38,10 +38,10 @@ const cartItems = [
 
 interface CheckoutDrawerProps {
   open: boolean
-  onOpenChangeAction: (open: boolean) => void
+  onOpenChangeActionAction: (open: boolean) => void
 }
 
-export function CheckoutDrawer({ open, onOpenChangeAction }: CheckoutDrawerProps) {
+export function CheckoutDrawer({ open, onOpenChangeActionAction }: CheckoutDrawerProps) {
   const [paymentMethod, setPaymentMethod] = useState("card")
   const [checkoutStep, setCheckoutStep] = useState<"summary" | "payment" | "confirmation">("summary")
 
@@ -66,7 +66,7 @@ export function CheckoutDrawer({ open, onOpenChangeAction }: CheckoutDrawerProps
   }
 
   return (
-    <Drawer open={open} onOpenChange={onOpenChangeAction}>
+    <Drawer open={open} onOpenChange={onOpenChangeActionAction}>
       <DrawerContent className="h-full overflow-auto">
         <div className="mx-auto w-full max-w-lg">
           <DrawerHeader className="px-0">
@@ -335,7 +335,7 @@ export function CheckoutDrawer({ open, onOpenChangeAction }: CheckoutDrawerProps
               <Button
                 className="w-full font-bold"
                 onClick={() => {
-                  onOpenChangeAction(false)
+                  onOpenChangeActionAction(false)
                   // Reset checkout flow after closing
                   setTimeout(() => setCheckoutStep("summary"), 300)
                 }}

@@ -20,7 +20,10 @@ export const Featured = () => {
 
     useEffect(() => {
         if (data) {
-            setFeatured(data);
+            const isSame = data.every((item) => featured.includes(item));
+            if (!isSame) {
+                setFeatured(data);
+            }
         }
     }, [data, setFeatured]);
 

@@ -72,7 +72,7 @@ export function CartDrawer({ open, onOpenChangeAction }: CartDrawerProps) {
     <Sheet open={open} onOpenChange={onOpenChangeAction}>
       <SheetContent side={isMobile ? "bottom" : "right"} className={`p-0 ${isMobile ? "h-[90%]" : "w-[400px]"}`}>
         {/* Mobile drag handle */}
-        {isMobile && <div className="mx-auto mt-2 h-1.5 w-16 rounded-full bg-muted" aria-hidden="true" />}
+        {isMobile && <div className="mx-auto mt-2 h-1.5 w-16 rounded-full bg-muted" aria-hidden="true"></div>}
 
         <div className="flex h-full flex-col">
           {/* Header */}
@@ -101,7 +101,7 @@ export function CartDrawer({ open, onOpenChangeAction }: CartDrawerProps) {
                 </Button>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-4 pr-1">
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex gap-4 py-2">
                     <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border">

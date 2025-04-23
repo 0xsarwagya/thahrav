@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import createPWA from "next-pwa";
+import { withContentCollections } from "@content-collections/next"
 
 const withPWA = createPWA({
   dest: "public",
@@ -34,7 +35,17 @@ const nextConfig: NextConfig = {
       allowedOrigins: ['https://thahrav.shop', "https://www.thahrav.shop"]
     }
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.leonardo.ai",
+      },
+    ],
+  }
 };
 
 // @ts-ignore
-export default withPWA(nextConfig);
+const nextWithPWA = withPWA(nextConfig);
+// @ts-ignore
+export default withContentCollections(nextWithPWA);

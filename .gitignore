@@ -54,3 +54,6 @@ prisma/*.node
 prisma/*.wasm
 prisma/*.d.ts
 prisma/*.js
+
+# turbo
+.content-collections

@@ -114,7 +114,7 @@ export default function AboutPage() {
               <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-full sm:h-40 sm:w-40">
                 <Image
                   src="/images/founders-stylised.jpg?height=200&width=200&text=Founder"
-                  alt="Founder of Thahrav"
+                  alt="Founders of Thahrav"
                   fill
                   className="object-cover"
                 />
