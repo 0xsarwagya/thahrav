@@ -5,8 +5,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("DATABASE_URL_SHADOW")
 }
 
 model User {
@@ -25,7 +26,15 @@ model User {
   banReason  String?
   banExpires DateTime?
 
+  phoneNumber       String?
+  flatOrHouseNumber String?
+  line_one          String?
+  line_two          String?
+  stateOrUT         String?
+  city              String?
+
   @@unique([email])
+  @@unique([phoneNumber])
   @@map("user")
 }
 
@@ -97,6 +106,8 @@ model Products {
   details       String[]
   care          String[]
   story         String
+
+  category String
 
   @@unique([id])
   @@unique([name])

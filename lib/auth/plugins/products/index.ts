@@ -159,6 +159,17 @@ export const productsPlugin = () => {
 
                 return data;
             }),
+            featuredProducts: createAuthEndpoint('/products/featured', {
+                method: "GET",
+            }, async () => {
+                const data = await prisma.products.findMany({
+                    where: {
+                        category: "unisex"
+                    },
+                    take: 3
+                })
+                return data;
+            }),
         }
     } satisfies BetterAuthPlugin
 }
