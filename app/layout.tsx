@@ -5,6 +5,7 @@ import { Hind_Madurai, Hind_Vadodara } from "next/font/google"
 import { ThemeProvider } from "@/components/providers/theme"
 import Navbar from "@/components/shared/navbar"
 import Footer from "@/components/shared/footer"
+import { DataProvider } from "@/components/providers/data"
 
 const inter = Hind_Vadodara({
   subsets: ["latin"],
@@ -34,13 +35,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${cormorantGaramond.variable} ${inter.className}`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-          <div className="flex min-h-screen flex-col items-center selection:bg-primary">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+        <DataProvider>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+            <div className="flex min-h-screen flex-col items-center selection:bg-primary">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+          </ThemeProvider>
+        </DataProvider>
       </body>
     </html>
   )

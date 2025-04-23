@@ -163,9 +163,6 @@ export const productsPlugin = () => {
                 method: "GET",
             }, async () => {
                 const data = await prisma.products.findMany({
-                    where: {
-                        category: "unisex"
-                    },
                     take: 3
                 })
                 return data;

@@ -42,15 +42,20 @@ export default function useLocalStorage<T>(
                 return initialValue;
             }
             try {
-                // Retrieve the stored value from localStorage using the specified key
                 const item = window.localStorage.getItem(key);
-                // Parse and return the value if found, otherwise return the initial value
-                return item ? (JSON.parse(item) as T) : initialValue;
+
+                // ✅ Avoid trying to parse null or "undefined"
+                if (!item || item === 'undefined') {
+                    return initialValue;
+                }
+
+                return JSON.parse(item) as T;
             } catch (error) {
                 console.error('Error reading localStorage:', error);
                 return initialValue;
             }
         };
+
 
         // Update the state with the value from localStorage
         setStoredValue(fromLocal());

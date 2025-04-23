@@ -5,129 +5,19 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
+import { Hero } from "@/components/landing/hero"
+import { Featured } from "@/components/landing/featured"
+import { Story } from "@/components/landing/story"
 
 export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[60vh] w-full overflow-hidden sm:h-[70vh] md:h-[80vh]">
-        <div className="absolute inset-0 bg-primary">
-          <Image
-            src="/images/hero.jpg?height=1080&width=1920"
-            alt="Indian textile craftsmanship"
-            fill
-            className="object-cover opacity-30 grayscale-100"
-            priority
-          />
-        </div>
-        <div className="container relative z-10 flex h-full flex-col items-center justify-center px-4 text-center sm:px-6 lg:px-8">
-          <div className="max-w-3xl space-y-4 md:space-y-6">
-            <h1 className="font-serif text-3xl font-bold tracking-tight text-primary-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-              Crafted from Culture, Styled for Spirit
-            </h1>
-            <p className="text-base font-medium text-primary-foreground sm:text-lg md:text-xl">
-              Designs rooted in culture, made for the modern wanderer — bold, meaningful, timeless.
-            </p>
-            <div className="pt-4">
-              <Button asChild size="lg">
-                <Link href="/shop">Explore Collection</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <Hero />
       {/* Featured Collection */}
-      <section className="py-12 md:py-16 lg:py-24">
-        <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 text-center md:mb-12">
-            <h2 className="font-serif text-2xl font-bold sm:text-3xl md:text-4xl">Featured Collection</h2>
-            <p className="mt-3 text-muted-foreground font-medium md:mt-4">
-              Discover our latest designs inspired by Indian craftsmanship
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-            {[1, 2, 3].map((item) => (
-              <Card key={item} className="overflow-hidden">
-                <div className="relative">
-                  <AspectRatio ratio={3 / 4}>
-                    <Image
-                      src={`/placeholder.svg?height=600&width=450&text=Product ${item}`}
-                      alt={`Featured product ${item}`}
-                      fill
-                      className="object-cover transition-transform duration-300 hover:scale-105"
-                    />
-                  </AspectRatio>
-                </div>
-                <CardContent className="pt-4">
-                  <h3 className="font-serif text-xl font-bold">Handwoven Silk Kurta</h3>
-                  <p className="text-sm text-muted-foreground font-medium">
-                    Inspired by Varanasi's rich textile heritage
-                  </p>
-                  <p className="mt-2 font-bold">₹4,999</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="mt-8 text-center md:mt-12">
-            <Button
-              asChild
-              variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-medium"
-            >
-              <Link href="/shop" className="flex items-center gap-2">
-                View All Collections
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-
+      <Featured />
       {/* Cultural Story Block */}
-      <section className="bg-muted py-12 md:py-16 lg:py-24">
-        <div className="container mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 md:grid-cols-2 md:items-center md:gap-12">
-            <div className="order-2 md:order-1">
-              <h2 className="font-serif text-2xl font-bold sm:text-3xl md:text-4xl">Our Cultural Roots</h2>
-              <div className="mt-4 space-y-4 text-muted-foreground font-medium md:mt-6">
-                <p>
-                  Thahrav is a culture-rooted fashion brand born from a deep reverence for India's spiritual and artistic legacy.
-                  Our name — meaning “pause” or “stillness” — reflects our belief that fashion can be a sacred act of slowing down,
-                  reconnecting with our roots, and expressing who we truly are.
-                </p>
-                <p>
-                  We blend timeless symbolism from sacred geography, like Kailash and Kashi, with modern silhouettes and wearable art.
-                  Our collections feature motifs inspired by Indian mythology, temple architecture, and ancient storytelling forms.
-                </p>
-              </div>
-              <div className="mt-6 md:mt-8">
-                <Button
-                  asChild
-                  variant="outline"
-                  className="border-primary text-primary hover:bg-primary hover:text-primary-foreground font-medium"
-                >
-                  <Link href="/about">Discover Our Story</Link>
-                </Button>
-              </div>
-            </div>
-            <div className="order-1 md:order-2">
-              <Card className="overflow-hidden">
-                <AspectRatio ratio={1 / 1}>
-                  <Image
-                    src="/images/culture.jpg?height=800&width=800&text=Cultural+Craftsmanship"
-                    alt="Indian artisan at work"
-                    fill
-                    className="object-cover"
-                  />
-                </AspectRatio>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Story />
 
       {/* Journal Highlights */}
       <section className="py-12 md:py-16 lg:py-24">
