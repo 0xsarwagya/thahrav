@@ -19,29 +19,30 @@ export const FeaturedJournal = () => {
 
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 md:gap-8">
                     {featured.map((post, index) => (
-                        <Card key={index.toString()} className="overflow-hidden">
-                            <div className="relative">
-                                <AspectRatio ratio={16 / 9}>
-                                    <Image
-                                        src={post.image || "/placeholder.svg"}
-                                        alt={post.title}
-                                        fill
-                                        className="object-cover transition-transform duration-300 hover:scale-105"
-                                    />
-                                </AspectRatio>
-                            </div>
-                            <CardContent className="pt-4">
-                                <h3 className="font-serif text-xl font-bold">{post.title}</h3>
-                                <p className="mt-2 text-sm text-muted-foreground font-medium">{post.description}</p>
-                                <Link
-                                    href="/journal"
-                                    className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underline"
-                                >
-                                    Read More
-                                    <ArrowRight className="ml-1 h-4 w-4" />
-                                </Link>
-                            </CardContent>
-                        </Card>
+                        <Link href={`/journal/${post.slug}`} key={index.toString()} className="group cursor-pointer">
+                            <Card key={index.toString()} className="overflow-hidden">
+                                <div className="relative">
+                                    <AspectRatio ratio={16 / 9}>
+                                        <Image
+                                            src={post.image || "/placeholder.svg"}
+                                            alt={post.title}
+                                            fill
+                                            className="object-cover transition-transform duration-300 hover:scale-105"
+                                        />
+                                    </AspectRatio>
+                                </div>
+                                <CardContent className="pt-4">
+                                    <h3 className="font-serif text-xl font-bold">{post.title}</h3>
+                                    <p className="mt-2 text-sm text-muted-foreground font-medium">{post.description}</p>
+                                    <span
+                                        className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:underlineb"
+                                    >
+                                        Read More
+                                        <ArrowRight className="ml-1 h-4 w-4" />
+                                    </span>
+                                </CardContent>
+                            </Card>
+                        </Link>
                     ))}
                 </div>
             </div>
