@@ -9,64 +9,43 @@ export default function CancellationPolicyPage() {
 
         <Separator className="my-6 sm:my-8" />
 
-        {/* @TODO: Replace with final legal cancellation policy text */}
         <div className="prose prose-indigo max-w-none dark:prose-invert">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed
-            erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim.
+            At Thahrav, we understand that plans can change. To ensure fairness while maintaining efficient operations, we have a strict but transparent cancellation policy.
           </p>
 
           <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">1. Cancellation Process</h2>
-          <p>
-            Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
-            Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
-          </p>
-          <p>
-            Phasellus ultrices nulla quis nibh. Quisque a lectus. Donec consectetuer ligula vulputate sem tristique
-            cursus:
-          </p>
+          <p>To request a cancellation, please follow one of these steps:</p>
           <ul className="list-disc pl-6 space-y-2">
             <li>Email us at cancellations@thahrav.com with your order number in the subject line</li>
-            <li>Call our customer service at +91 98765 43210</li>
-            <li>Use the cancellation option in your account dashboard</li>
+            <li>Call our customer support at +91 98765 43210</li>
+            <li>Use the cancellation option in your Thahrav account dashboard</li>
           </ul>
 
           <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">2. Eligibility for Cancellation</h2>
-          <p>
-            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
-            tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
-            semper.
-          </p>
-          <p>
-            Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper
-            pharetra.
-          </p>
+          <p>Orders are eligible for cancellation based on the time they were placed:</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>If placed between 8:30 AM and 5:30 PM</strong>: Cancellations are allowed only before 5:30 PM on the same day.</li>
+            <li><strong>If placed between 5:30 PM and 8:30 AM</strong>: Cancellations are allowed only before 8:30 AM the following day.</li>
+          </ul>
 
           <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">3. Cancellation Timeframe</h2>
           <p>
-            Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi
-            purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus.
-          </p>
-          <p>
-            Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
+            Once the above cutoff times have passed, your order is sent for processing and cannot be cancelled. We advise customers to reach out as early as possible if cancellation is needed.
           </p>
 
           <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">4. Non-Cancellable Items</h2>
-          <p>
-            Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae,
-            ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis
-            tempus lacus enim ac dui.
-          </p>
-          <p>
-            Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor
-            neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat.
-          </p>
+          <p>The following types of items cannot be cancelled once ordered:</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Customized or personalized products</li>
+            <li>Products marked as final sale</li>
+            <li>Orders that have already been processed or shipped</li>
+          </ul>
 
           <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">5. Contact Us</h2>
           <p>If you have any questions about this Cancellation Policy, please contact us:</p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>By email: info@thahrav.com</li>
-            <li>By phone: +91 98765 43210</li>
+            <li>By email: contact@thahrav.shop</li>
           </ul>
         </div>
       </div>

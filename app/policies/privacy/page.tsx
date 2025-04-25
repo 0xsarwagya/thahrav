@@ -9,105 +9,60 @@ export default function PrivacyPolicyPage() {
 
         <Separator className="my-6 sm:my-8" />
 
-        {/* @TODO: Replace with final legal privacy policy text */}
         <div className="prose prose-indigo max-w-none dark:prose-invert">
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed
-            erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim.
+            Thahrav values your privacy and is committed to protecting your personal information. This Privacy Policy
+            outlines how we collect, use, and protect your data.
           </p>
 
           <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">1. Information We Collect</h2>
-          <p>
-            Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.
-            Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
-          </p>
-          <p>We may collect the following types of information:</p>
+          <p>We may collect the following information when you use our services:</p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>Personal identification information (Name, email address, phone number, etc.)</li>
-            <li>Billing and shipping information</li>
-            <li>Transaction information</li>
-            <li>Device and usage information</li>
+            <li>Name, email address, phone number, and shipping address</li>
+            <li>Order details and purchase history</li>
+            <li>Account preferences and settings</li>
+            <li>Device, browser, and usage data through cookies and analytics tools</li>
           </ul>
 
           <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">2. How We Use Your Information</h2>
-          <p>
-            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum
-            tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas
-            semper.
-          </p>
-          <p>We use the information we collect to:</p>
+          <p>We use your information to:</p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>Process transactions and fulfill orders</li>
-            <li>Communicate with you about your orders and products</li>
-            <li>Improve our website and customer experience</li>
-            <li>Send periodic emails regarding products, services, and promotions</li>
+            <li>Process and fulfill orders using Cashfree and Razorpay</li>
+            <li>Send order updates via WhatsApp, email, and SMS</li>
+            <li>Provide customer support and respond to queries</li>
+            <li>Track analytics and improve our services using PostHog</li>
+            <li>Send promotional emails only if you’ve given explicit consent</li>
           </ul>
 
-          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">3. Information Sharing and Disclosure</h2>
+          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">3. Sharing of Information</h2>
           <p>
-            Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi
-            purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus.
+            We may share your necessary details (like name, phone number, and address) with our delivery partners to
+            ensure successful delivery of your order. Your data will not be sold or shared for marketing purposes
+            without your consent.
           </p>
+
+          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">4. Cookies and Tracking</h2>
           <p>
-            We do not sell, trade, or rent your personal information to third parties. We may share your information
-            with:
+            We use cookies to authenticate your session, manage your cart, and track order activity. These help us
+            enhance your experience and personalize your journey on Thahrav.
           </p>
+
+          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">5. Your Choices</h2>
+          <p>
+            You can change your communication preferences and privacy settings anytime by accessing your account
+            settings. You may also opt-out of promotional communications at any time.
+          </p>
+
+          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">6. Security</h2>
+          <p>
+            We take reasonable precautions to protect your personal data and ensure secure payment transactions using
+            our trusted gateways, Razorpay and Cashfree.
+          </p>
+
+          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">7. Contact Us</h2>
+          <p>If you have any questions or concerns regarding this Privacy Policy, contact us at:</p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>Service providers who assist us in operating our website and business</li>
-            <li>Legal authorities when required by law</li>
-            <li>Business partners with your consent</li>
-          </ul>
-
-          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">4. Cookies and Tracking Technologies</h2>
-          <p>
-            Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae,
-            ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis
-            tempus lacus enim ac dui.
-          </p>
-          <p>
-            We use cookies and similar tracking technologies to track activity on our website and hold certain
-            information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.
-          </p>
-
-          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">5. Data Security</h2>
-          <p>
-            Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. Phasellus ultrices nulla quis nibh.
-            Quisque a lectus. Donec consectetuer ligula vulputate sem tristique cursus.
-          </p>
-          <p>
-            We implement appropriate security measures to protect your personal information. However, no method of
-            transmission over the Internet or electronic storage is 100% secure.
-          </p>
-
-          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">6. Your Rights</h2>
-          <p>
-            Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.
-            Quisque sit amet est et sapien ullamcorper pharetra.
-          </p>
-          <p>You have the right to:</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Access and receive a copy of your personal data</li>
-            <li>Rectify inaccurate personal data</li>
-            <li>Request the deletion of your personal data</li>
-            <li>Object to the processing of your personal data</li>
-            <li>Request restriction of processing your personal data</li>
-          </ul>
-
-          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">7. Changes to This Privacy Policy</h2>
-          <p>
-            Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget
-            tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui.
-          </p>
-          <p>
-            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
-            Privacy Policy on this page and updating the "Last updated" date.
-          </p>
-
-          <h2 className="font-serif text-xl font-medium sm:text-2xl mt-8">8. Contact Us</h2>
-          <p>If you have any questions about this Privacy Policy, please contact us:</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>By email: privacy@thahrav.com</li>
-            <li>By phone: +91 98765 43210</li>
+            <li>Email: contact@thahrav.shop</li>
           </ul>
         </div>
       </div>
