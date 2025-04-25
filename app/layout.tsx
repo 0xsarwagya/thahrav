@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/components/providers/theme"
 import Navbar from "@/components/shared/navbar"
 import Footer from "@/components/shared/footer"
 import { DataProvider } from "@/components/providers/data"
-import { Newsletter } from "@/components/shared/newsletter"
 
 const inter = Hind_Vadodara({
   subsets: ["latin"],
@@ -191,7 +190,6 @@ export default function RootLayout({
               <Navbar />
               <main className="flex-1">
                 {children}
-                <Newsletter />
               </main>
               <Footer />
             </div>

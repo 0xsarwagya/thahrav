@@ -1,4 +1,7 @@
 const allJournals = require("./.content-collections/generated/allJournals.js");
+const { PrismaClient } = require("./prisma/client");
+
+const prisma = new PrismaClient();
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
@@ -8,12 +11,25 @@ module.exports = {
 	priority: 0.7,
 	sitemapSize: 5000,
 	additionalPaths: async (config) => {
-		return allJournals.default.map((journal) => {
+		const products = await prisma.products.findMany();
+
+		const productsData = products.map((product) => {
+			return {
+				loc: `${config.siteUrl}/product/${product.slug}`,
+				changefreq: "daily",
+				priority: 0.7,
+			};
+		});
+
+		const journals = allJournals.default.map((journal) => {
 			return {
 				loc: `${config.siteUrl}/journal/${journal.slug}`,
 				changefreq: "daily",
 				priority: 0.7,
 			};
 		});
+
+		const allPaths = [...productsData, ...journals];
+		return allPaths; // return an array of objects
 	},
 };

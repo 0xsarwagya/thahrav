@@ -9,11 +9,51 @@ import allJournals from "@/.content-collections/generated/allJournals"
 import { notFound } from "next/navigation"
 import { MDX } from "@/components/ui/mdx"
 import { Card, CardContent } from "@/components/ui/card"
+import type { Metadata } from "next"
 
 type PageProps = {
   params: Promise<{ slug: string }>
 }
 
+export async function generateMetadata({ params }: PageProps) {
+  const { slug } = await params;
+  const post = allJournals.find((post) => post.slug === slug);
+
+  if (!post) {
+    return notFound();
+  }
+
+  return {
+    metadataBase: new URL("https://thahrav.shop"),
+    title: post.title,
+    description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      images: [
+        {
+          url: post.image,
+          alt: post.title,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [
+        {
+          url: post.image,
+          alt: post.title,
+          width: 1200,
+          height: 630,
+        },
+      ],
+    }
+  } satisfies Metadata;
+}
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
@@ -23,7 +63,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     return notFound();
   }
 
-  const relatedPosts = allJournals.filter((p) => p.category === post.category && post.slug !== slug).slice(0, 3);
+  const relatedPosts = allJournals.filter((p) => p.slug !== slug).slice(0, 3);
 
   return (
     <div className="flex flex-col px-4 py-8 sm:px-6 sm:py-10 md:py-12 lg:px-8 justify-items-start items-start">

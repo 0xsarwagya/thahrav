@@ -8,6 +8,7 @@ import { FeaturedPost } from "@/components/journal/featured"
 import type { Journal } from "@/.content-collections/generated"
 import { BlogsDisplay } from "@/components/journal/blogs"
 import { useState } from "react";
+import { Newsletter } from "@/components/shared/newsletter";
 
 export default function JournalDisplay() {
     const [posts, setPosts] = useState<Journal[]>(blogPosts as Journal[])
@@ -72,6 +73,8 @@ export default function JournalDisplay() {
             <FeaturedPost post={posts[0]} />
             {/* Blog Posts Grid */}
             <BlogsDisplay posts={posts} />
+            <Separator className="my-6 sm:my-8" />
+            <Newsletter />
         </div>
     )
 }
