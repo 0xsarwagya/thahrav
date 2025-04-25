@@ -43,8 +43,13 @@ next-env.d.ts
 lib/database/
 public/workbox-*.js
 public/service-worker.js
+# sitemaps
+public/sitemap.xml
+public/sitemap-*.xml
+public/*.txt
 .env*.local
 
+# prisma
 prisma/*.json
 prisma/*/*.js
 prisma/*/*.d.ts

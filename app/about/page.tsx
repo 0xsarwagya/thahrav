@@ -2,6 +2,53 @@ import Image from "next/image"
 import { Card } from "@/components/ui/card"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Separator } from "@/components/ui/separator"
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://thahrav.shop"),
+  title: "About Thahrav",
+  description: "Thahrav is a culture-rooted fashion brand born from a deep reverence for India's spiritual and artistic legacy.",
+  openGraph: {
+    title: "About Thahrav",
+    description: "Thahrav is a culture-rooted fashion brand born from a deep reverence for India's spiritual and artistic legacy.",
+    images: [
+      {
+        url: "/og/og-about.png?height=630&width=1200&text=About+Thahrav",
+        alt: "About Thahrav",
+        width: 1200,
+        height: 630
+      }
+    ]
+  },
+  keywords: [
+    "Thahrav",
+    "Fashion",
+    "Art",
+    "India",
+    "Bihar",
+    "Madhubani Art",
+    "Kalamkari",
+    "Mandala Art",
+    "Fashion Brand",
+    "Artistic Culture",
+    "Indian Traditions",
+    "Ethical Fashion",
+    "Sustainable Production",
+    "Ethical Fashion Brands",
+    "Ethical Fashion Brands in India",
+    "Ethical Fashion Brands in Bihar",
+    "Ethical Fashion Brands in Madhubani",
+    "Ethical Fashion Brands in Kalamkari",
+    "Ethical Fashion Brands in Mandala",
+    "Ethical Fashion Brands in Bihar, Madhubani, Kalamkari, Mandala",
+    "Ethical Fashion Brands in Bihar, Madhubani, Kalamkari, Mandala, India",
+    "Ethical Fashion Brands in Bihar, Madhubani, Kalamkari, Mandala, India, Fashion",
+    "Ethical Fashion Brands in Bihar, Madhubani, Kalamkari, Mandala, India, Fashion, Art",
+    "Ethical Fashion Brands in Bihar, Madhubani, Kalamkari, Mandala, India, Fashion, Art, Ethnical",
+    "Ethical Fashion Brands in Bihar, Madhubani, Kalamkari, Mandala, India, Fashion, Art, Ethnical, Sustainable",
+    "Ethical Fashion Brands in Bihar, Madhubani, Kalamkari, Mandala, India, Fashion, Art, Ethnical, Sustainable, Ethnical+Fashion+Brands",
+  ]
+};
 
 export default function AboutPage() {
   return (

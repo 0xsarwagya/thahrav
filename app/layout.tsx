@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | Thahrav Shop",
   },
   description:
-    "Thahrav blends Indian heritage with modern design. Shop spiritual streetwear, oversized t-shirts, hoodies, and artisanal fashion for men, women & unisex.",
+    "Thahrav blends Indian heritage with modern design. Shop cultural streetwear, oversized t-shirts, hoodies, and artisanal fashion for men, women & unisex.",
   icons: {
     icon: "/favicon.png",
     shortcut: "/android-icon.png",
@@ -155,10 +155,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "https://thahrav.shop/og.png",
+        url: "https://thahrav.shop/og/og.png",
         width: 1200,
         height: 630,
-        alt: "Thahrav – From Kailash to Kashi, Stitched in Style",
+        alt: "Thahrav – Crafted from Culture, Styled for Spirit",
       },
     ],
   },
@@ -166,10 +166,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@thahravshop",
     creator: "@thahrav",
-    title: "Thahrav – From Kailash to Kashi, Stitched in Style",
+    title: "Thahrav – Crafted from Culture, Styled for Spirit",
     description:
-      "Divine-inspired fashion meets modern design. Explore mythic streetwear, oversized tees, hoodies & spiritual silhouettes at Thahrav.",
-    images: ["https://thahrav.shop/og-image.png"],
+      "Divine-inspired fashion meets modern design. Explore cultural streetwear, oversized tees, hoodies & spiritual silhouettes at Thahrav.",
+    images: ["/og/og.png"],
   },
   verification: {
     google: "fEAW6Y9f2lPlKbAdbPFhxw9M8gBWma0bmHZ_s-1d8Hc"
