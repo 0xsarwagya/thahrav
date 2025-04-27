@@ -9,6 +9,7 @@ import { render } from '@react-email/components';
 import { ThahravVerifyEmail } from "@/lib/auth/mailer/templates/verify";
 import { sendEmail } from "./mailer";
 import ThahravPasswordResetEmail from "./mailer/templates/reset";
+import { paymentsPlugin } from "./plugins/payments";
 
 const indianStates: string[] = [
     "Andhra Pradesh",
@@ -173,5 +174,6 @@ export const auth = betterAuth({
         openAPI(),
         waitlistPlugin(),
         productsPlugin(),
+        paymentsPlugin(),
     ]
 })

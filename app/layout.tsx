@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/providers/theme"
 import Navbar from "@/components/shared/navbar"
 import Footer from "@/components/shared/footer"
 import { DataProvider } from "@/components/providers/data"
+import { ProgressBar } from "@/components/shared/progress-bar"
 
 const inter = Hind_Vadodara({
   subsets: ["latin"],
@@ -186,13 +187,15 @@ export default function RootLayout({
       <body className={`${inter.variable} ${cormorantGaramond.variable} ${inter.className}`}>
         <DataProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-            <div className="flex min-h-screen flex-col items-center selection:bg-primary">
-              <Navbar />
-              <main className="flex-1">
-                {children}
-              </main>
-              <Footer />
-            </div>
+            <ProgressBar>
+              <div className="flex min-h-screen flex-col items-center selection:bg-primary">
+                <Navbar />
+                <main className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </div>
+            </ProgressBar>
           </ThemeProvider>
         </DataProvider>
       </body>

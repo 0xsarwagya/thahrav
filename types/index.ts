@@ -22,3 +22,29 @@ interface OutputErrorSchema extends OutputBaseSchema<false> {
 }
 
 export type Output = OutputSuccessSchema | OutputErrorSchema;
+
+export interface WebhookData {
+    data: {
+        order: {
+            order_id: string
+            order_amount: number
+            order_currency: string
+        }
+        payment: {
+            cf_payment_id: string
+            payment_status: string
+            payment_amount: number
+            payment_currency: string
+            payment_message: string
+            payment_time: string
+        }
+        customer_details: {
+            customer_id: string
+            customer_name: string
+            customer_email: string
+            customer_phone: string
+        }
+    }
+    event_time: string
+    type: string
+}

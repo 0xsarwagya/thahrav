@@ -10,12 +10,13 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Label } from "@/components/ui/label"
+import type { Products } from "@/prisma"
 
 export default function TrackOrderPage() {
   const [orderNumber, setOrderNumber] = useState("")
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [orderDetails, setOrderDetails] = useState<any>(null)
+  const [orderDetails, setOrderDetails] = useState<Products | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -35,33 +36,7 @@ export default function TrackOrderPage() {
       await new Promise((resolve) => setTimeout(resolve, 1500))
 
       // Mock data - in a real app, this would come from an API
-      setOrderDetails({
-        orderNumber: "TH-12345",
-        date: "April 15, 2023",
-        status: "Shipped",
-        items: [
-          { name: "Handwoven Silk Kurta", quantity: 1, price: 4999 },
-          { name: "Ajrakh Print Scarf", quantity: 1, price: 1499 },
-        ],
-        total: 6498,
-        trackingNumber: "TRK123456789",
-        carrier: "BlueDart",
-        estimatedDelivery: "April 20, 2023",
-        events: [
-          {
-            date: "April 16, 2023",
-            status: "Shipped",
-            location: "Delhi Sorting Facility",
-            description: "Package has left the facility",
-          },
-          {
-            date: "April 15, 2023",
-            status: "Processing",
-            location: "Thahrav Warehouse",
-            description: "Order has been processed and packed",
-          },
-        ],
-      })
+      setOrderDetails({} as Products)
     } catch (err) {
       setError("Failed to fetch order details. Please try again.")
     } finally {
@@ -70,17 +45,19 @@ export default function TrackOrderPage() {
   }
 
   return (
-    <div className="container px-4 py-8 sm:px-6 sm:py-10 md:py-12 lg:px-8">
-      <Button
-        asChild
-        variant="ghost"
-        className="mb-6 flex items-center gap-2 p-0 text-sm font-medium text-muted-foreground hover:bg-transparent hover:text-foreground sm:mb-8"
-      >
-        <Link href="/">
-          <ArrowLeft className="mr-1 h-4 w-4" />
-          Back to Home
-        </Link>
-      </Button>
+    <div className="container mx-auto px-4 py-8 sm:px-6 sm:py-10 md:py-12 lg:px-8 max-w-3xl">
+      <div className="flex flex-col justify-between items-start">
+        <Button
+          asChild
+          variant="ghost"
+          className="mb-6 flex items-center gap-2 p-0 text-sm font-medium text-muted-foreground hover:bg-transparent hover:text-foreground sm:mb-8"
+        >
+          <Link href="/">
+            <ArrowLeft className="mr-1 h-4 w-4" />
+            Back to Home
+          </Link>
+        </Button>
+      </div>
 
       <div className="mx-auto max-w-3xl">
         <div className="text-center">

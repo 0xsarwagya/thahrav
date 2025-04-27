@@ -1,6 +1,3 @@
-"use client"
-
-import { useState } from "react"
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Image from "next/image"
@@ -47,6 +44,8 @@ const getProduct = (id: string) => {
         "/placeholder.svg?height=800&width=600&text=Product+Detail+1",
         "/placeholder.svg?height=800&width=600&text=Product+Detail+2",
         "/placeholder.svg?height=800&width=600&text=Product+Styling",
+        "/placeholder.svg?height=800&width=600&text=Product+Styling",
+        "/placeholder.svg?height=800&width=600&text=Product+Styling",
       ],
       sizes: ["S", "M", "L", "XL"],
       details: [
@@ -78,10 +77,12 @@ const getProduct = (id: string) => {
         "This exquisite cotton saree features intricate hand embroidery inspired by the rich cultural heritage of India. The delicate patterns and vibrant colors celebrate the artistry of traditional craftsmanship.",
       price: "₹6,499",
       images: [
-        "/placeholder.svg?height=800&width=600&text=Saree+Main",
-        "/placeholder.svg?height=800&width=600&text=Saree+Detail+1",
-        "/placeholder.svg?height=800&width=600&text=Saree+Detail+2",
-        "/placeholder.svg?height=800&width=600&text=Saree+Styling",
+        "/placeholder.svg?height=800&width=600&text=Product+Main",
+        "/placeholder.svg?height=800&width=600&text=Product+Detail+1",
+        "/placeholder.svg?height=800&width=600&text=Product+Detail+2",
+        "/placeholder.svg?height=800&width=600&text=Product+Styling",
+        "/placeholder.svg?height=800&width=600&text=Product+Styling",
+        "/placeholder.svg?height=800&width=600&text=Product+Styling",
       ],
       sizes: ["One Size"],
       details: [
@@ -150,30 +151,30 @@ type PageProps = {
 export default async function ProductPage({ params }: PageProps) {
   const { id } = await params;
   const product = getProduct(id)
-  const [quantity, setQuantity] = useState(1)
-  const [isCartOpen, setIsCartOpen] = useState(false)
-  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  // const [quantity, setQuantity] = useState(1)
+  // const [isCartOpen, setIsCartOpen] = useState(false)
+  // const [selectedSize, setSelectedSize] = useState<string | null>(null)
 
   if (!product) {
     notFound()
   }
 
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1)
-    }
-  }
+  // const decreaseQuantity = () => {
+  //   if (quantity > 1) {
+  //     setQuantity(quantity - 1)
+  //   }
+  // }
 
-  const increaseQuantity = () => {
-    setQuantity(quantity + 1)
-  }
+  // const increaseQuantity = () => {
+  //   setQuantity(quantity + 1)
+  // }
 
-  const addToCart = () => {
-    // @TODO: Implement add to cart functionality
-    // This would typically dispatch an action to add the product to the cart
-    console.log(`Adding product ${product.id} to cart with quantity ${quantity} and size ${selectedSize}`)
-    setIsCartOpen(true)
-  }
+  // const addToCart = () => {
+  //   // @TODO: Implement add to cart functionality
+  //   // This would typically dispatch an action to add the product to the cart
+  //   console.log(`Adding product ${product.id} to cart with quantity ${quantity} and size ${selectedSize}`)
+  //   setIsCartOpen(true)
+  // }
 
   return (
     <main id="main-content" className="relative bg-background">
@@ -217,7 +218,7 @@ export default async function ProductPage({ params }: PageProps) {
                 />
               </AspectRatio>
             </Card>
-            <div className="grid grid-cols-3 gap-2 sm:gap-4">
+            <div className="grid grid-cols-5 gap-2 sm:gap-4">
               {product.images.slice(1).map((image, index) => (
                 <Card key={index.toString()} className="overflow-hidden p-0 border">
                   <AspectRatio ratio={1 / 1}>
@@ -260,7 +261,7 @@ export default async function ProductPage({ params }: PageProps) {
                     Size Guide
                   </Button>
                 </div>
-                <div className="mt-2 flex flex-wrap gap-2">
+                {/* <div className="mt-2 flex flex-wrap gap-2">
                   {product.sizes.map((size) => (
                     <Button
                       key={size}
@@ -272,11 +273,11 @@ export default async function ProductPage({ params }: PageProps) {
                       {size}
                     </Button>
                   ))}
-                </div>
+                </div> */}
               </div>
 
               {/* Quantity */}
-              <div className="mt-4 sm:mt-6">
+              {/* <div className="mt-4 sm:mt-6">
                 <h3 className="text-sm font-medium">Quantity</h3>
                 <div className="mt-2 flex items-center">
                   <Button
@@ -306,13 +307,13 @@ export default async function ProductPage({ params }: PageProps) {
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
-              </div>
+              </div> */}
 
               {/* Add to Cart */}
               <div className="mt-6 sm:mt-8">
-                <Button className="w-full" onClick={addToCart}>
+                {/* <Button className="w-full" onClick={addToCart}> */}
                   Add to Cart
-                </Button>
+                {/* </Button> */}
               </div>
 
               <Separator className="my-6 sm:my-8" />
@@ -381,7 +382,7 @@ export default async function ProductPage({ params }: PageProps) {
       </div>
 
       {/* Cart Drawer */}
-      <CartDrawer open={isCartOpen} onOpenChangeAction={setIsCartOpen} />
+      {/* <CartDrawer open={isCartOpen} onOpenChangeAction={setIsCartOpen} /> */}
     </main>
   )
 }
