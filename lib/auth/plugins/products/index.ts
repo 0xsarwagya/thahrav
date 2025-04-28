@@ -123,6 +123,19 @@ export const productsPlugin = () => {
                             output: z.string().min(10),
                         }
                     },
+                    culturalBackground: {
+                        type: "string",
+                        required: true,
+                        unique: false,
+                        fieldName: "culturalBackground",
+                        validator: {
+                            input: z.string().min(10),
+                            output: z.string().min(10),
+                        },
+                        defaultValue() {
+                            return "No cultural background available";
+                        }
+                    },
                     category: {
                         type: "string",
                         required: true,

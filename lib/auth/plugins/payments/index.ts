@@ -2,9 +2,10 @@ import { prisma } from "@/lib/prisma"
 import type { BetterAuthPlugin } from "better-auth"
 import { createAuthEndpoint } from "better-auth/plugins"
 import { z } from "zod"
-import { Cashfree, CFEnvironment } from "cashfree-pg"
+import { Cashfree, CFEnvironment, type PaymentWebhook } from "cashfree-pg"
 import { verifyWebhookSignature } from "@/lib/utils"
 import type { WebhookData } from "@/types"
+import { getSessionFromCtx } from 'better-auth/api';
 
 const env = process.env.NODE_ENV;
 
@@ -44,17 +45,43 @@ export const paymentsPlugin = () => {
                     throw new Error("Invalid Signature")
                 }
 
-                const parsedBody = JSON.parse(rawBody) as WebhookData;
+                const parsedBody = JSON.parse(rawBody) as PaymentWebhook;
+
+                console.log(parsedBody)
 
                 /**
                  * @TODO
-                 * 1. Check if the order_id exists in the database
-                 * 2. If it does, update the order status to paid
-                 * 3. If it doesn't, create a new order
+                 * Update Orders
                  */
 
                 return {
                     success: true,
+                }
+            }),
+            createPaymentLink: createAuthEndpoint("/payments/create", {
+                method: "POST",
+                requireHeaders: true,
+                requireRequest: true,
+                cloneRequest: true,
+            }, async (ctx) => {
+                if (!ctx.request) {
+                    throw new Error("Internal Server Error")
+                }
+
+                const session = await getSessionFromCtx(ctx, {
+                    disableCookieCache: true,
+                    disableRefresh: true,
+                });
+
+                if (!session) {
+                    throw new Error("Unauthorized")
+                }
+
+                const { user } = session;
+
+                return {
+                    success: true,
+                    user,
                 }
             }),
         }

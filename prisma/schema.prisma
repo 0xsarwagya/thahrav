@@ -1,7 +1,6 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
-  output        = "./"
+  provider = "prisma-client-js"
+  output   = "./"
 }
 
 datasource db {
@@ -11,27 +10,21 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-
-  role       String?
-  banned     Boolean?
-  banReason  String?
-  banExpires DateTime?
-
+  id                String    @id
+  name              String
+  email             String
+  emailVerified     Boolean
+  image             String?
+  createdAt         DateTime
+  updatedAt         DateTime
   phoneNumber       String?
   flatOrHouseNumber String?
   line_one          String?
   line_two          String?
   stateOrUT         String?
   city              String?
+  sessions          Session[]
+  accounts          Account[]
 
   @@unique([email])
   @@unique([phoneNumber])
@@ -48,8 +41,6 @@ model Session {
   userAgent String?
   userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  impersonatedBy String?
 
   @@unique([token])
   @@map("session")
@@ -86,28 +77,29 @@ model Verification {
 }
 
 model Waitlist {
-  id        String @id @default(uuid())
-  email     String @unique
+  id        String @id
+  email     String
   createdAt Int?
   updatedAt Int?
 
+  @@unique([email])
   @@map("waitlist")
 }
 
 model Products {
-  id            String   @id
-  name          String
-  slug          String
-  description   String
-  originalPrice Int
-  price         Int?
-  sizes         String[]
-  images        String[]
-  details       String[]
-  care          String[]
-  story         String
-
-  category String
+  id                 String   @id
+  name               String
+  slug               String
+  description        String
+  originalPrice      Int
+  price              Int?
+  sizes              String[]
+  images             String[]
+  details            String[]
+  care               String[]
+  story              String
+  culturalBackground String   @default("")
+  category           String
 
   @@unique([id])
   @@unique([name])
