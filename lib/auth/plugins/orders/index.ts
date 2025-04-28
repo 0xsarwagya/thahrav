@@ -3,11 +3,11 @@ import type { BetterAuthPlugin } from "better-auth"
 import { createAuthEndpoint } from "better-auth/plugins"
 import { z } from "zod"
 
-export const productsPlugin = () => {
+export const ordersPlugin = () => {
     return {
-        id: "products",
+        id: "orders",
         schema: {
-            products: {
+            orders: {
                 disableMigration: false,
                 fields: {
                     id: {
@@ -27,7 +27,7 @@ export const productsPlugin = () => {
                         type: 'string',
                         required: true,
                         references: {
-                            model: 'users',
+                            model: 'user',
                             field: 'id',
                             onDelete: 'cascade',
                         },
@@ -98,39 +98,8 @@ export const productsPlugin = () => {
                         },
                     }
                 },
-                modelName: "products",
+                modelName: "orders",
             },
         },
-        endpoints: {
-            allProducts: createAuthEndpoint('/products', {
-                method: "GET",
-            }, async () => {
-                const data = await prisma.products.findMany()
-
-                return data;
-            }),
-            productData: createAuthEndpoint('/products', {
-                method: "GET",
-                query: z.object({
-                    id: z.string().min(1),
-                })
-            }, async (req) => {
-                const data = await prisma.products.findUnique({
-                    where: {
-                        id: req.query.id
-                    }
-                })
-
-                return data;
-            }),
-            featuredProducts: createAuthEndpoint('/products/featured', {
-                method: "GET",
-            }, async () => {
-                const data = await prisma.products.findMany({
-                    take: 3
-                })
-                return data;
-            }),
-        }
     } satisfies BetterAuthPlugin
 }

@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import useSWR from "swr"
 import { fetcher } from "@/lib/utils"
-import { Products } from "@/prisma"
+import type { Products } from "@/prisma"
 import useLocalStorage from "@/hooks/use-local-storage";
 import { useEffect } from "react";
 
@@ -18,6 +18,7 @@ export const Featured = () => {
     });
     const [featured, setFeatured] = useLocalStorage<Products[]>('thrv:products:featured', data ?? []);
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: We want to run this effect only once
     useEffect(() => {
         if (data) {
             const isSame = data.every((item) => featured.includes(item));

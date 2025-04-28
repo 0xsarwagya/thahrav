@@ -1,6 +1,8 @@
+import { handleError } from "@/lib/errors"
 import { prisma } from "@/lib/prisma"
 import type { BetterAuthPlugin } from "better-auth"
 import { createAuthEndpoint } from "better-auth/plugins"
+import { NextResponse } from "next/server"
 import { z } from "zod"
 
 export const productsPlugin = () => {
@@ -153,32 +155,58 @@ export const productsPlugin = () => {
         endpoints: {
             allProducts: createAuthEndpoint('/products', {
                 method: "GET",
-            }, async () => {
-                const data = await prisma.products.findMany()
-
-                return data;
-            }),
-            productData: createAuthEndpoint('/products', {
-                method: "GET",
                 query: z.object({
-                    id: z.string().min(1),
-                })
+                    id: z.string().optional(),
+                }),
             }, async (req) => {
-                const data = await prisma.products.findUnique({
-                    where: {
-                        id: req.query.id
-                    }
-                })
+                try {
+                    if (req.query.id) {
+                        console.log("ID is set")
+                        const data = await prisma.products.findUnique({
+                            where: {
+                                id: req.query.id
+                            }
+                        });
 
-                return data;
+                        if (!data) {
+                            return NextResponse.json({
+                                error: "Product not found",
+                            }, {
+                                status: 404
+                            })
+                        }
+
+                        return data;
+                    }
+
+                    const data = await prisma.products.findMany()
+
+                    return data;
+                } catch (error) {
+                    const errorData = handleError(error)
+                    return NextResponse.json({
+                        error: errorData.message,
+                    }, {
+                        status: errorData.statusCode
+                    })
+                }
             }),
             featuredProducts: createAuthEndpoint('/products/featured', {
                 method: "GET",
             }, async () => {
-                const data = await prisma.products.findMany({
-                    take: 3
-                })
-                return data;
+                try {
+                    const data = await prisma.products.findMany({
+                        take: 3
+                    })
+                    return data;
+                } catch (error) {
+                    const errorData = handleError(error)
+                    return NextResponse.json({
+                        error: errorData.message,
+                    }, {
+                        status: errorData.statusCode
+                    })
+                }
             }),
         }
     } satisfies BetterAuthPlugin

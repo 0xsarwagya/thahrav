@@ -10,6 +10,7 @@ import { ThahravVerifyEmail } from "@/lib/auth/mailer/templates/verify";
 import { sendEmail } from "./mailer";
 import ThahravPasswordResetEmail from "./mailer/templates/reset";
 import { paymentsPlugin } from "./plugins/payments";
+import { ordersPlugin } from "./plugins/orders";
 
 const indianStates: string[] = [
     "Andhra Pradesh",
@@ -175,5 +176,6 @@ export const auth = betterAuth({
         waitlistPlugin(),
         productsPlugin(),
         paymentsPlugin(),
+        ordersPlugin(),
     ]
 })

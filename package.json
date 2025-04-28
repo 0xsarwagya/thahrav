@@ -36,6 +36,8 @@
     "cashfree-pg": "^5.0.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "crypto-js": "^4.2.0",
+    "crypto-ts": "^1.0.2",
     "fakefilter": "^0.1.1172",
     "fuse.js": "^7.1.0",
     "lucide-react": "^0.487.0",

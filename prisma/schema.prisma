@@ -4,9 +4,8 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("DATABASE_URL_SHADOW")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -25,6 +24,7 @@ model User {
   city              String?
   sessions          Session[]
   accounts          Account[]
+  orderss           Orders[]
 
   @@unique([email])
   @@unique([phoneNumber])
@@ -98,11 +98,26 @@ model Products {
   details            String[]
   care               String[]
   story              String
-  culturalBackground String   @default("")
+  culturalBackground String
   category           String
 
   @@unique([id])
   @@unique([name])
   @@unique([slug])
   @@map("products")
+}
+
+model Orders {
+  id            String   @id
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items         String[]
+  totalPrice    Int
+  status        String
+  paymentStatus String
+  createdAt     DateTime
+  updatedAt     DateTime
+
+  @@unique([id])
+  @@map("orders")
 }
