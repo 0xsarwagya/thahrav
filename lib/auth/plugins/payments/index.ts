@@ -4,8 +4,8 @@ import { createAuthEndpoint } from "better-auth/plugins"
 import { z } from "zod"
 import { Cashfree, CFEnvironment, type PaymentWebhook } from "cashfree-pg"
 import { verifyWebhookSignature } from "@/lib/utils"
-import type { WebhookData } from "@/types"
 import { getSessionFromCtx } from 'better-auth/api';
+import { AxiosError } from "axios";
 
 const env = process.env.NODE_ENV;
 
@@ -63,25 +63,66 @@ export const paymentsPlugin = () => {
                 requireHeaders: true,
                 requireRequest: true,
                 cloneRequest: true,
+                body: z.object({
+                    amount: z.number(),
+                    orderId: z.string(),
+                }),
             }, async (ctx) => {
-                if (!ctx.request) {
-                    throw new Error("Internal Server Error")
-                }
+                try {
+                    if (!ctx.request) {
+                        throw new Error("Internal Server Error")
+                    }
 
-                const session = await getSessionFromCtx(ctx, {
-                    disableCookieCache: true,
-                    disableRefresh: true,
-                });
+                    const session = await getSessionFromCtx(ctx);
 
-                if (!session) {
-                    throw new Error("Unauthorized")
-                }
+                    console.log(session)
 
-                const { user } = session;
+                    if (!session) {
+                        throw new Error("Unauthorized")
+                    }
 
-                return {
-                    success: true,
-                    user,
+                    const { user } = session;
+
+                    const body = await ctx.request.json();
+                    const baseUrl = new URL(ctx.request.url).origin;
+                    const { amount, orderId } = body;
+
+                    const paymentLink = await cashfree.PGCreateLink({
+                        link_id: orderId,
+                        link_amount: amount,
+                        link_currency: "INR",
+                        link_purpose: "Pay for Thahrav",
+                        customer_details: {
+                            customer_name: user.name,
+                            customer_phone: user.phoneNumber.toString().split("").slice(3).join(""),
+                            customer_email: user.email,
+                        },
+                        link_notify: {
+                            send_sms: true,
+                            send_email: true,
+                        },
+                        link_meta: {
+                            return_url: new URL("/payments/success", baseUrl).toString(),
+                            notify_url: new URL("/api/payments/webhook", baseUrl).toString(),
+                        }
+                    });
+
+                    return {
+                        success: true,
+                        paymentLink,
+                    }
+                } catch (error) {
+                    if (error instanceof AxiosError) {
+                        return {
+                            success: false,
+                            error: error.response?.data,
+                        }
+                    }
+
+                    return {
+                        success: false,
+                        error: error,
+                    }
                 }
             }),
         }

@@ -1,16 +1,22 @@
 import { betterAuth } from "better-auth";
-import { prisma } from "../prisma";
+import { prisma } from "@/lib/prisma";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { openAPI } from "better-auth/plugins";
-import { waitlistPlugin } from "./plugins/waitlist";
-import { productsPlugin } from "./plugins/products";
+import { waitlistPlugin } from "@/lib/auth/plugins/waitlist";
+import { productsPlugin } from "@/lib/auth/plugins/products";
 import { z } from "zod";
 import { render } from '@react-email/components';
 import { ThahravVerifyEmail } from "@/lib/auth/mailer/templates/verify";
-import { sendEmail } from "./mailer";
-import ThahravPasswordResetEmail from "./mailer/templates/reset";
-import { paymentsPlugin } from "./plugins/payments";
-import { ordersPlugin } from "./plugins/orders";
+import { sendEmail } from "@/lib/auth/mailer";
+import ThahravPasswordResetEmail from "@/lib/auth/mailer/templates/reset";
+import { paymentsPlugin } from "@/lib/auth/plugins/payments";
+import { ordersPlugin } from "@/lib/auth/plugins/orders";
+import { Redis } from '@upstash/redis'
+
+const redis = new Redis({
+    url: z.string().parse(process.env.UPSTASH_REDIS_REST_URL),
+    token: z.string().parse(process.env.UPSTASH_REDIS_REST_TOKEN),
+});
 
 const indianStates: string[] = [
     "Andhra Pradesh",
@@ -116,15 +122,12 @@ export const auth = betterAuth({
         additionalFields: {
             phoneNumber: {
                 type: "string",
-                optional: false,
+                required: true,
                 unique: true,
-                plugins: [
-                    // Implement a custom plugin here
-                ]
             },
             flatOrHouseNumber: {
                 type: "string",
-                optional: true,
+                required: false,
                 validator: {
                     input: z.string().min(1).max(10),
                     output: z.string().min(1).max(10),
@@ -132,7 +135,7 @@ export const auth = betterAuth({
             },
             line_one: {
                 type: "string",
-                optional: true,
+                required: false,
                 validator: {
                     input: z.string().min(1).max(100),
                     output: z.string().min(1).max(100),
@@ -140,7 +143,7 @@ export const auth = betterAuth({
             },
             line_two: {
                 type: "string",
-                optional: true,
+                required: false,
                 validator: {
                     input: z.string().min(1).max(100),
                     output: z.string().min(1).max(100),
@@ -148,7 +151,7 @@ export const auth = betterAuth({
             },
             stateOrUT: {
                 type: "string",
-                optional: true,
+                required: false,
                 validator: {
                     input: z.string().refine(val => {
                         return stateOrUtList.includes(val.toLowerCase())
@@ -160,12 +163,18 @@ export const auth = betterAuth({
             },
             city: {
                 type: "string",
-                optional: true,
+                required: false,
                 validator: {
                     input: z.string().min(1).max(100),
                     output: z.string().min(1).max(100),
                 }
             }
+        }
+    },
+    session: {
+        cookieCache: {
+            enabled: true,
+            cacheTime: 5 * 60 // 5 minutes
         }
     },
     useSecureCookies: true,
@@ -177,5 +186,16 @@ export const auth = betterAuth({
         productsPlugin(),
         paymentsPlugin(),
         ordersPlugin(),
-    ]
+    ],
+    secondaryStorage: {
+        get: async (key) => {
+            return await redis.get(key);
+        },
+        set: async (key, value, ttl) => {
+            await redis.set(key, value, { ex: ttl ? ttl : 60 * 60 * 24 * 30 });
+        },
+        delete: async (key) => {
+            await redis.del(key);
+        },
+    }
 })

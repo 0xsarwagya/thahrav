@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import crypto from "node:crypto"
+// biome-ignore lint/style/useNodejsImportProtocol: Better auth does not support nodejs imports
+import crypto from "crypto"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

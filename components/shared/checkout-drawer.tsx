@@ -76,12 +76,6 @@ export function CheckoutDrawer({ open, onOpenChangeActionAction }: CheckoutDrawe
                 {checkoutStep === "payment" && "Payment"}
                 {checkoutStep === "confirmation" && "Order Confirmed"}
               </DrawerTitle>
-              <DrawerClose asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
-                  <X className="h-5 w-5" />
-                  <span className="sr-only">Close</span>
-                </Button>
-              </DrawerClose>
             </div>
             <DrawerDescription>
               {checkoutStep === "summary" && "Review your items before checkout"}

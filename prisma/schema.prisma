@@ -16,7 +16,7 @@ model User {
   image             String?
   createdAt         DateTime
   updatedAt         DateTime
-  phoneNumber       String?
+  phoneNumber       String
   flatOrHouseNumber String?
   line_one          String?
   line_two          String?
@@ -24,7 +24,6 @@ model User {
   city              String?
   sessions          Session[]
   accounts          Account[]
-  orderss           Orders[]
 
   @@unique([email])
   @@unique([phoneNumber])
@@ -86,38 +85,41 @@ model Waitlist {
   @@map("waitlist")
 }
 
-model Products {
-  id                 String   @id
-  name               String
-  slug               String
-  description        String
-  originalPrice      Int
-  price              Int?
-  sizes              String[]
-  images             String[]
-  details            String[]
-  care               String[]
-  story              String
-  culturalBackground String
-  category           String
-
-  @@unique([id])
-  @@unique([name])
-  @@unique([slug])
-  @@map("products")
+enum SIZE {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
 }
 
-model Orders {
-  id            String   @id
-  userId        String
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items         String[]
-  totalPrice    Int
-  status        String
-  paymentStatus String
-  createdAt     DateTime
-  updatedAt     DateTime
+enum CATEGORY {
+  MENS_CREW
+  MENS_OVERSIZED
+  UNISEX_CREW
+  UNISEX_OVERSIZED
+  WOMENS_REGULAR
+  WOMENS_CROPPED_HOODIE
+  MENS_HOODIE
+  UNISEX_HOODIE
+}
 
-  @@unique([id])
-  @@map("orders")
+model Products {
+  id            String   @id
+  name          String
+  description   String
+  price         Int
+  originalPrice Int
+  limit         Int
+  images        String[]
+  sizes         SIZE[]
+  categories    CATEGORY
+
+  metadata  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([name])
+  @@map("products")
 }

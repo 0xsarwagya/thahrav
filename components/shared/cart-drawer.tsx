@@ -72,17 +72,13 @@ export function CartDrawer({ open, onOpenChangeAction }: CartDrawerProps) {
     <Sheet open={open} onOpenChange={onOpenChangeAction}>
       <SheetContent side={isMobile ? "bottom" : "right"} className={`p-0 ${isMobile ? "h-[90%]" : "w-[400px]"}`}>
         {/* Mobile drag handle */}
-        {isMobile && <div className="mx-auto mt-2 h-1.5 w-16 rounded-full bg-muted" aria-hidden="true"></div>}
+        {isMobile && <div className="mx-auto mt-2 h-1.5 w-16 rounded-full bg-muted" aria-hidden="true" />}
 
         <div className="flex h-full flex-col">
           {/* Header */}
           <SheetHeader className="px-4 py-4 sm:px-6">
             <div className="flex items-center justify-between">
               <SheetTitle>Your Cart</SheetTitle>
-              <SheetClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </SheetClose>
             </div>
             <SheetDescription>
               {cartItems.length === 0
