@@ -10,7 +10,7 @@ import { sendEmail } from "@/lib/auth/mailer";
 import ThahravPasswordResetEmail from "@/lib/auth/mailer/templates/reset";
 import { ordersPlugin } from "@/lib/auth/plugins/orders";
 import { Redis } from '@upstash/redis'
-import { addressPlugin } from "./plugins/address";
+import { addressPlugin } from "@/lib/auth/plugins/address";
 
 const redis = new Redis({
     url: z.string().parse(process.env.UPSTASH_REDIS_REST_URL),

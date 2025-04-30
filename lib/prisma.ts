@@ -1,4 +1,5 @@
-import { PrismaClient } from '@/prisma/client'
+import { PrismaClient } from '@/prisma/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 /**
  * The PrismaClient instance used to interact with the database.
@@ -13,6 +14,6 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient };
 export const prisma =
   globalForPrisma.prisma ?? new PrismaClient({
     log: ["query", 'error', 'info', 'warn'],
-  });
+  }).$extends(withAccelerate());
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;

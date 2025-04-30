@@ -195,13 +195,12 @@ export const productsPlugin = (): BetterAuthPlugin => {
             id: z.string().optional(),
           }),
         },
-        async (req) => {
+        async (ctx) => {
           try {
             // If an ID is provided, fetch a single product by ID
-            if (req.query.id) {
-              console.log("ID is set:", req.query.id);
+            if (ctx.query.id) {
               const product = await prisma.product.findUnique({
-                where: { id: req.query.id },
+                where: { id: ctx.query.id },
               });
 
               if (!product) {
