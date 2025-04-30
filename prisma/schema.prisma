@@ -4,45 +4,30 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id                String    @id
-  name              String
-  email             String
-  emailVerified     Boolean
-  image             String?
-  createdAt         DateTime
-  updatedAt         DateTime
-  phoneNumber       String
-  flatOrHouseNumber String?
-  line_one          String?
-  line_two          String?
-  stateOrUT         String?
-  city              String?
-  sessions          Session[]
-  accounts          Account[]
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  phoneNumber   String
+  accounts      Account[]
+  carts         Cart[]
+  orderss       Orders[]
+
+  orders Order[]
+
+  addresss Address[]
 
   @@unique([email])
   @@unique([phoneNumber])
   @@map("user")
-}
-
-model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime
-  updatedAt DateTime
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([token])
-  @@map("session")
 }
 
 model Account {
@@ -75,51 +60,104 @@ model Verification {
   @@map("verification")
 }
 
-model Waitlist {
-  id        String @id
-  email     String
-  createdAt Int?
-  updatedAt Int?
-
-  @@unique([email])
-  @@map("waitlist")
-}
-
-enum SIZE {
-  XS
-  S
-  M
-  L
-  XL
-  XXL
-}
-
-enum CATEGORY {
-  MENS_CREW
-  MENS_OVERSIZED
-  UNISEX_CREW
-  UNISEX_OVERSIZED
-  WOMENS_REGULAR
-  WOMENS_CROPPED_HOODIE
-  MENS_HOODIE
-  UNISEX_HOODIE
-}
-
 model Products {
-  id            String   @id
+  id            String    @id
   name          String
   description   String
   price         Int
   originalPrice Int
   limit         Int
   images        String[]
-  sizes         SIZE[]
-  categories    CATEGORY
+  sizes         String[]
+  category      String
+  qikinkSku     String
+  designUrl     String
+  logoUrl       String
+  createdAt     DateTime?
+  updatedAt     DateTime?
 
-  metadata  Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([name])
+  @@unique([id])
   @@map("products")
+}
+
+model Cart {
+  id        String   @id
+  items     String[]
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime
+  updatedAt DateTime
+  orderss   Orders[]
+
+  orders Order[]
+
+  @@unique([id])
+  @@unique([userId])
+  @@map("cart")
+}
+
+model Orders {
+  id        String   @id
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    String
+  createdAt DateTime
+  updatedAt DateTime
+
+  @@map("orders")
+}
+
+model Product {
+  id            String    @id
+  name          String
+  description   String
+  price         Int
+  originalPrice Int
+  limit         Int
+  images        String[]
+  sizes         String[]
+  category      String
+  qikinkSku     String
+  designUrl     String
+  logoUrl       String
+  createdAt     DateTime?
+  updatedAt     DateTime?
+
+  @@unique([id])
+  @@map("product")
+}
+
+model Order {
+  id        String   @id
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status    String
+  createdAt DateTime
+  updatedAt DateTime
+
+  @@map("order")
+}
+
+model Address {
+  id              String   @id
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  houseNumber     String
+  street          String
+  addiitionalInfo String?
+  landmark        String?
+  city            String
+  stateOrUT       String
+  pincode         String
+  isDefault       Boolean
+  createdAt       DateTime
+  updatedAt       DateTime
+
+  additionalInfo String?
+
+  @@map("address")
 }

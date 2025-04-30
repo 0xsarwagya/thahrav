@@ -1,6 +1,5 @@
 import { toast } from "sonner";
 import { createAuthClient } from "better-auth/react";
-import { waitlistPluginClient } from "./plugins/waitlist/client";
 import { productsPluginClient } from "./plugins/products/client";
 
 export const client = createAuthClient({
@@ -12,7 +11,6 @@ export const client = createAuthClient({
         },
     },
     plugins: [
-        waitlistPluginClient(),
         productsPluginClient(),
     ]
 });

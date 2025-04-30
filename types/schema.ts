@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { Products } from '@/prisma';
+import { zodToJsonSchema } from "zod-to-json-schema";
 
 /**
  * Schema for validating input data.
@@ -27,21 +28,19 @@ const CATEGORY = z.enum([
     "UNISEX_HOODIE"
 ]);
 
-export const productSchema = z.custom<Products>(val => {
-    if (typeof val !== 'object' || val === null) {
-        return false;
-    }
-    z.string().parse(val.id);
-    z.string().parse(val.name);
-    z.string().parse(val.description);
-    z.number().int().parse(val.price);
-    z.number().int().parse(val.originalPrice);
-    z.number().int().parse(val.limit);
-    z.array(z.string().url()).parse(val.images);
-    z.array(SIZE).parse(val.sizes);
-    CATEGORY.parse(val.categories);
-    z.any().parse(val.metadata);
-    z.date().parse(val.createdAt);
-    z.date().parse(val.updatedAt);
-    return true;
+export const productSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    price: z.number().int(),
+    originalPrice: z.number().int(),
+    limit: z.number().int(),
+    images: z.array(z.string().url()), // or z.string() if not URLs
+    sizes: z.array(SIZE),
+    categories: CATEGORY,
+    metadata: z.any(), // Or define a more specific shape if known
+    createdAt: z.date(),
+    updatedAt: z.date()
 });
+
+export const productJSONSchema = zodToJsonSchema(productSchema);

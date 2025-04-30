@@ -2,77 +2,31 @@ import { betterAuth } from "better-auth";
 import { prisma } from "@/lib/prisma";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { openAPI } from "better-auth/plugins";
-import { waitlistPlugin } from "@/lib/auth/plugins/waitlist";
 import { productsPlugin } from "@/lib/auth/plugins/products";
 import { z } from "zod";
 import { render } from '@react-email/components';
 import { ThahravVerifyEmail } from "@/lib/auth/mailer/templates/verify";
 import { sendEmail } from "@/lib/auth/mailer";
 import ThahravPasswordResetEmail from "@/lib/auth/mailer/templates/reset";
-import { paymentsPlugin } from "@/lib/auth/plugins/payments";
 import { ordersPlugin } from "@/lib/auth/plugins/orders";
 import { Redis } from '@upstash/redis'
+import { addressPlugin } from "./plugins/address";
 
 const redis = new Redis({
     url: z.string().parse(process.env.UPSTASH_REDIS_REST_URL),
     token: z.string().parse(process.env.UPSTASH_REDIS_REST_TOKEN),
 });
 
-const indianStates: string[] = [
-    "Andhra Pradesh",
-    "Arunachal Pradesh",
-    "Assam",
-    "Bihar",
-    "Chhattisgarh",
-    "Goa",
-    "Gujarat",
-    "Haryana",
-    "Himachal Pradesh",
-    "Jharkhand",
-    "Karnataka",
-    "Kerala",
-    "Madhya Pradesh",
-    "Maharashtra",
-    "Manipur",
-    "Meghalaya",
-    "Mizoram",
-    "Nagaland",
-    "Odisha",
-    "Punjab",
-    "Rajasthan",
-    "Sikkim",
-    "Tamil Nadu",
-    "Telangana",
-    "Tripura",
-    "Uttar Pradesh",
-    "Uttarakhand",
-    "West Bengal"
-];
-
-const indianUnionTerritories: string[] = [
-    "Andaman and Nicobar Islands",
-    "Chandigarh",
-    "Dadra and Nagar Haveli and Daman and Diu",
-    "Delhi",
-    "Jammu and Kashmir",
-    "Ladakh",
-    "Lakshadweep",
-    "Puducherry"
-];
-
-const stateOrUtList: string[] = indianStates.concat(indianUnionTerritories).map((state) => state.toLowerCase());
-
-
 export const auth = betterAuth({
     appName: "Thahrav",
     database: prismaAdapter(prisma, {
-        provider: 'postgresql'
+        provider: 'cockroachdb'
     }),
     emailAndPassword: {
         enabled: true,
         disableSignUp: false,
         requireEmailVerification: true,
-        async sendResetPassword(data, request) {
+        async sendResetPassword(data) {
             const token = data.token;
 
             const email = data.user.email;
@@ -99,7 +53,7 @@ export const auth = betterAuth({
             const token = data.token;
 
             const email = data.user.email;
-            const subject = "Complete your signup – verify your email";
+            const subject = "Complete your signup - verify your email";
 
             const html = await render(ThahravVerifyEmail({
                 token,
@@ -124,57 +78,13 @@ export const auth = betterAuth({
                 type: "string",
                 required: true,
                 unique: true,
-            },
-            flatOrHouseNumber: {
-                type: "string",
-                required: false,
                 validator: {
-                    input: z.string().min(1).max(10),
-                    output: z.string().min(1).max(10),
-                }
+                    input: z.string().min(10).max(10),
+                    output: z.string().min(10).max(10),
+                },
+                input: true,
+                sortable: true,
             },
-            line_one: {
-                type: "string",
-                required: false,
-                validator: {
-                    input: z.string().min(1).max(100),
-                    output: z.string().min(1).max(100),
-                }
-            },
-            line_two: {
-                type: "string",
-                required: false,
-                validator: {
-                    input: z.string().min(1).max(100),
-                    output: z.string().min(1).max(100),
-                }
-            },
-            stateOrUT: {
-                type: "string",
-                required: false,
-                validator: {
-                    input: z.string().refine(val => {
-                        return stateOrUtList.includes(val.toLowerCase())
-                    }),
-                    output: z.string().refine(val => {
-                        return stateOrUtList.includes(val.toLowerCase())
-                    }),
-                }
-            },
-            city: {
-                type: "string",
-                required: false,
-                validator: {
-                    input: z.string().min(1).max(100),
-                    output: z.string().min(1).max(100),
-                }
-            }
-        }
-    },
-    session: {
-        cookieCache: {
-            enabled: true,
-            cacheTime: 5 * 60 // 5 minutes
         }
     },
     useSecureCookies: true,
@@ -182,10 +92,9 @@ export const auth = betterAuth({
     basePath: "/api",
     plugins: [
         openAPI(),
-        waitlistPlugin(),
         productsPlugin(),
-        paymentsPlugin(),
         ordersPlugin(),
+        addressPlugin(),
     ],
     secondaryStorage: {
         get: async (key) => {
