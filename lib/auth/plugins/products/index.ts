@@ -200,7 +200,7 @@ export const productsPlugin = (): BetterAuthPlugin => {
             // If an ID is provided, fetch a single product by ID
             if (req.query.id) {
               console.log("ID is set:", req.query.id);
-              const product = await prisma.products.findUnique({
+              const product = await prisma.product.findUnique({
                 where: { id: req.query.id },
               });
 
@@ -215,7 +215,7 @@ export const productsPlugin = (): BetterAuthPlugin => {
             }
 
             // Otherwise, return all products
-            const allProducts = await prisma.products.findMany();
+            const allProducts = await prisma.product.findMany();
             return allProducts;
           } catch (error) {
             const errorData = handleError(error);
@@ -241,7 +241,7 @@ export const productsPlugin = (): BetterAuthPlugin => {
         },
         async () => {
           try {
-            const featured = await prisma.products.findMany({
+            const featured = await prisma.product.findMany({
               take: 3,
             });
 

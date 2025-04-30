@@ -20,7 +20,8 @@ const redis = new Redis({
 export const auth = betterAuth({
     appName: "Thahrav",
     database: prismaAdapter(prisma, {
-        provider: 'cockroachdb'
+        provider: 'cockroachdb',
+        debugLogs: true,
     }),
     emailAndPassword: {
         enabled: true,

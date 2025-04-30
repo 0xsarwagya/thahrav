@@ -19,11 +19,8 @@ model User {
   phoneNumber   String
   accounts      Account[]
   carts         Cart[]
-  orderss       Orders[]
-
-  orders Order[]
-
-  addresss Address[]
+  orders        Order[]
+  addresss      Address[]
 
   @@unique([email])
   @@unique([phoneNumber])
@@ -60,55 +57,6 @@ model Verification {
   @@map("verification")
 }
 
-model Products {
-  id            String    @id
-  name          String
-  description   String
-  price         Int
-  originalPrice Int
-  limit         Int
-  images        String[]
-  sizes         String[]
-  category      String
-  qikinkSku     String
-  designUrl     String
-  logoUrl       String
-  createdAt     DateTime?
-  updatedAt     DateTime?
-
-  @@unique([id])
-  @@map("products")
-}
-
-model Cart {
-  id        String   @id
-  items     String[]
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime
-  updatedAt DateTime
-  orderss   Orders[]
-
-  orders Order[]
-
-  @@unique([id])
-  @@unique([userId])
-  @@map("cart")
-}
-
-model Orders {
-  id        String   @id
-  cartId    String
-  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status    String
-  createdAt DateTime
-  updatedAt DateTime
-
-  @@map("orders")
-}
-
 model Product {
   id            String    @id
   name          String
@@ -129,6 +77,20 @@ model Product {
   @@map("product")
 }
 
+model Cart {
+  id        String   @id
+  items     String[]
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime
+  updatedAt DateTime
+  orders    Order[]
+
+  @@unique([id])
+  @@unique([userId])
+  @@map("cart")
+}
+
 model Order {
   id        String   @id
   cartId    String
@@ -143,21 +105,19 @@ model Order {
 }
 
 model Address {
-  id              String   @id
-  userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  houseNumber     String
-  street          String
-  addiitionalInfo String?
-  landmark        String?
-  city            String
-  stateOrUT       String
-  pincode         String
-  isDefault       Boolean
-  createdAt       DateTime
-  updatedAt       DateTime
-
+  id             String   @id
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  houseNumber    String
+  street         String
   additionalInfo String?
+  landmark       String?
+  city           String
+  stateOrUT      String
+  pincode        String
+  isDefault      Boolean
+  createdAt      DateTime
+  updatedAt      DateTime
 
   @@map("address")
 }
