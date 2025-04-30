@@ -11,7 +11,7 @@ module.exports = {
 	priority: 0.7,
 	sitemapSize: 5000,
 	additionalPaths: async (config) => {
-		const products = await prisma.products.findMany();
+		const products = await prisma.product.findMany();
 
 		const productsData = products.map((product) => {
 			return {
