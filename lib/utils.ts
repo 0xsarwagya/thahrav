@@ -12,8 +12,17 @@ export function cn(...inputs: ClassValue[]) {
  * @param args - Tuple containing the request URL and optional request configuration
  * @returns Promise that resolves to the JSON response
  */
-export const fetcher = (...args: [RequestInfo, RequestInit?]) =>
-  fetch(...args).then((res) => res.json())
+export const fetcher = (...args: [RequestInfo, RequestInit?]) => {
+  const nextConfig = {
+    ...args[1],
+  }
+
+  if (!nextConfig.next) {
+    nextConfig.next = { revalidate: 60 }
+  }
+
+  return fetch(...args).then((res) => res.json())
+}
 
 /**
  * Verifies the authenticity of a webhook request by comparing signatures
