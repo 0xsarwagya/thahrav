@@ -10,13 +10,13 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Label } from "@/components/ui/label"
-import type { Products } from "@/prisma"
+import type { Product } from "@/prisma"
 
 export default function TrackOrderPage() {
   const [orderNumber, setOrderNumber] = useState("")
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [orderDetails, setOrderDetails] = useState<Products | null>(null)
+  const [orderDetails, setOrderDetails] = useState<Product | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +36,7 @@ export default function TrackOrderPage() {
       await new Promise((resolve) => setTimeout(resolve, 1500))
 
       // Mock data - in a real app, this would come from an API
-      setOrderDetails({} as Products)
+      setOrderDetails({} as Product)
     } catch (err) {
       setError("Failed to fetch order details. Please try again.")
     } finally {
@@ -105,89 +105,91 @@ export default function TrackOrderPage() {
           </CardContent>
         </Card>
 
+        {/* 
         {orderDetails && (
-          <Card className="mt-8">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>Order #{orderDetails.orderNumber}</CardTitle>
-                  <CardDescription>Placed on {orderDetails.date}</CardDescription>
-                </div>
-                <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
-                  {orderDetails.status}
-                </span>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-medium">Tracking Information</h3>
-                  <div className="mt-2 space-y-2 text-sm">
-                    <p>
-                      <span className="font-medium">Tracking Number:</span> {orderDetails.trackingNumber}
-                    </p>
-                    <p>
-                      <span className="font-medium">Carrier:</span> {orderDetails.carrier}
-                    </p>
-                    <p>
-                      <span className="font-medium">Estimated Delivery:</span> {orderDetails.estimatedDelivery}
-                    </p>
-                  </div>
-                </div>
+          // <Card className="mt-8">
+          //   <CardHeader>
+          //     <div className="flex items-center justify-between">
+          //       <div>
+          //         <CardTitle>Order #{orderDetails.orderNumber}</CardTitle>
+          //         <CardDescription>Placed on {orderDetails.date}</CardDescription>
+          //       </div>
+          //       <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+          //         {orderDetails.status}
+          //       </span>
+          //     </div>
+          //   </CardHeader>
+          //   <CardContent>
+          //     <div className="space-y-6">
+          //       <div>
+          //         <h3 className="font-medium">Tracking Information</h3>
+          //         <div className="mt-2 space-y-2 text-sm">
+          //           <p>
+          //             <span className="font-medium">Tracking Number:</span> {orderDetails.trackingNumber}
+          //           </p>
+          //           <p>
+          //             <span className="font-medium">Carrier:</span> {orderDetails.carrier}
+          //           </p>
+          //           <p>
+          //             <span className="font-medium">Estimated Delivery:</span> {orderDetails.estimatedDelivery}
+          //           </p>
+          //         </div>
+          //       </div>
 
-                <Separator />
+          //       <Separator />
 
-                <div>
-                  <h3 className="font-medium">Tracking History</h3>
-                  <div className="mt-4 space-y-4">
-                    {orderDetails.events.map((event: any, index: number) => (
-                      <div key={index} className="relative pl-6">
-                        <div className="absolute left-0 top-1 h-3 w-3 rounded-full bg-primary"></div>
-                        {index !== orderDetails.events.length - 1 && (
-                          <div className="absolute left-1.5 top-4 h-full w-0.5 bg-border"></div>
-                        )}
-                        <div>
-                          <p className="font-medium">{event.status}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {event.date} - {event.location}
-                          </p>
-                          <p className="mt-1 text-sm">{event.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+          //       <div>
+          //         <h3 className="font-medium">Tracking History</h3>
+          //         <div className="mt-4 space-y-4">
+          //           {orderDetails.events.map((event: any, index: number) => (
+          //             <div key={index} className="relative pl-6">
+          //               <div className="absolute left-0 top-1 h-3 w-3 rounded-full bg-primary"></div>
+          //               {index !== orderDetails.events.length - 1 && (
+          //                 <div className="absolute left-1.5 top-4 h-full w-0.5 bg-border"></div>
+          //               )}
+          //               <div>
+          //                 <p className="font-medium">{event.status}</p>
+          //                 <p className="text-xs text-muted-foreground">
+          //                   {event.date} - {event.location}
+          //                 </p>
+          //                 <p className="mt-1 text-sm">{event.description}</p>
+          //               </div>
+          //             </div>
+          //           ))}
+          //         </div>
+          //       </div>
 
-                <Separator />
+          //       <Separator />
 
-                <div>
-                  <h3 className="font-medium">Order Summary</h3>
-                  <div className="mt-2 space-y-2">
-                    {orderDetails.items.map((item: any, index: number) => (
-                      <div key={index} className="flex justify-between text-sm">
-                        <span>
-                          {item.quantity}x {item.name}
-                        </span>
-                        <span>₹{item.price.toLocaleString("en-IN")}</span>
-                      </div>
-                    ))}
-                    <Separator className="my-2" />
-                    <div className="flex justify-between font-medium">
-                      <span>Total</span>
-                      <span>₹{orderDetails.total.toLocaleString("en-IN")}</span>
-                    </div>
-                  </div>
-                </div>
+          //       <div>
+          //         <h3 className="font-medium">Order Summary</h3>
+          //         <div className="mt-2 space-y-2">
+          //           {orderDetails.items.map((item: any, index: number) => (
+          //             <div key={index} className="flex justify-between text-sm">
+          //               <span>
+          //                 {item.quantity}x {item.name}
+          //               </span>
+          //               <span>₹{item.price.toLocaleString("en-IN")}</span>
+          //             </div>
+          //           ))}
+          //           <Separator className="my-2" />
+          //           <div className="flex justify-between font-medium">
+          //             <span>Total</span>
+          //             <span>₹{orderDetails.total.toLocaleString("en-IN")}</span>
+          //           </div>
+          //         </div>
+          //       </div>
 
-                <div className="flex justify-center">
-                  <Button asChild variant="outline">
-                    <Link href="/profile/orders">View All Orders</Link>
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+          //       <div className="flex justify-center">
+          //         <Button asChild variant="outline">
+          //           <Link href="/profile/orders">View All Orders</Link>
+          //         </Button>
+          //       </div>
+          //     </div>
+          //   </CardContent>
+          // </Card>
+        // )}
+        */}
       </div>
     </div>
   )

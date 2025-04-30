@@ -8,7 +8,7 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import useSWR from "swr"
 import { fetcher } from "@/lib/utils"
-import type { Products } from "@/prisma"
+import type { Product } from "@/prisma"
 import { Suspense } from "react";
 
 /**
@@ -17,7 +17,7 @@ import { Suspense } from "react";
  * @returns A React component that displays a section of featured products.
  */
 export const Featured = () => {
-    const { data, error, isLoading } = useSWR<Products[]>("/api/products/featured", fetcher, {
+    const { data, error, isLoading } = useSWR<Product[]>("/api/products/featured", fetcher, {
         suspense: true,
     });
 
@@ -60,7 +60,7 @@ export const Featured = () => {
  * @returns The `ProductDisplay` component is returning a grid of `Card` components. Each `Card`
  * component represents a featured product and contains an image, title, description, and price.
  */
-const ProductDisplay = ({ featured }: { featured: Products[] }) => {
+const ProductDisplay = ({ featured }: { featured: Product[] }) => {
     return (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {featured.map((item) => (

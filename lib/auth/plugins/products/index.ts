@@ -247,6 +247,7 @@ export const productsPlugin = (): BetterAuthPlugin => {
 
             return featured;
           } catch (error) {
+            console.error("Error fetching featured products:", error);
             const errorData = handleError(error);
             return NextResponse.json(
               { error: errorData.message },

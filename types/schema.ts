@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { Products } from '@/prisma';
+import type { Product } from '@/prisma';
 import { zodToJsonSchema } from "zod-to-json-schema";
 
 /**

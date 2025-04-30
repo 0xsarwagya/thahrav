@@ -172,7 +172,7 @@ export default function AboutPage() {
                   believe that clothing is not just what you wear, but what you carry: stories, symbols, and sacred roots. Through
                   Thahrav, we hope to spark a return to meaning, beauty, and cultural memory — one piece at a time."
                 </p>
-                <p className="mt-3 font-serif text-lg sm:mt-4">- Shweta and Amitesh</p>
+                <p className="mt-3 font-serif text-lg sm:mt-4">- Thahrav Founders</p>
               </div>
             </div>
           </div>
